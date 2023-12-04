@@ -22,6 +22,11 @@ class AdminController extends Controller
         return view('administration.form');
     }
 
+    public function profile()
+    {
+        return view('administration.profile');
+    }
+
     public function dashboard()
     {
         return view('administration.dashboard');

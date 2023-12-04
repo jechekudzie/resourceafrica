@@ -24,6 +24,7 @@ Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/table', [AdminController::class, 'table']);
 Route::get('/admin/form', [AdminController::class, 'form']);
 Route::get('/admin/pickers', [AdminController::class, 'pickers']);
+Route::get('/admin/profile', [AdminController::class, 'profile']);
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
 Route::get('/dashboard', function () {

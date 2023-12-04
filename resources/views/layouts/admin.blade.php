@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="{{ asset('administration/dist/css/app.css') }}" />
 
     <!-- END: CSS Assets-->
+
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <!-- END: Head -->
 <body class="py-5">
@@ -1578,12 +1582,7 @@
         @yield('content')
 
     </div>
-<!-- BEGIN: Dark Mode Switcher-->
-{{--<div data-url="side-menu-dark-dashboard-overview-1.html" class="dark-mode-switcher cursor-pointer shadow-md fixed bottom-0 right-0 box border rounded-full w-40 h-12 flex items-center justify-center z-50 mb-10 mr-10">
-    <div class="mr-4 text-slate-600 dark:text-slate-200">Dark Mode</div>
-    <div class="dark-mode-switcher__toggle border"></div>
-</div>--}}
-<!-- END: Dark Mode Switcher-->
+</div>
 
 <!-- BEGIN: JS Assets-->
 {{-- <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
@@ -1591,5 +1590,22 @@
 <script src="{{ asset('administration/dist/js/app.js') }}"></script>
 
 <!-- END: JS Assets-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    });
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
 </body>
 </html>
