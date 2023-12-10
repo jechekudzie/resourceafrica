@@ -24,6 +24,7 @@ Route::get('/administration/organization-types/{id}/fields', [App\Http\Controlle
 Route::get('/administration/organizations/get-children/{id}', [App\Http\Controllers\API\ApiController::class, 'fetchOrganizationTypeChildren']);
 
 //post routes
-Route::post('/api/administration/organizations/store', [App\Http\Controllers\API\ApiController::class, 'addNewOrganization']);
+Route::post('/administration/organizations/store', [App\Http\Controllers\API\ApiController::class, 'addNewOrganization']);
+Route::post('/administration/organizations/fields/store', [App\Http\Controllers\API\ApiController::class, 'saveOrganizationFieldValues']);
 
 

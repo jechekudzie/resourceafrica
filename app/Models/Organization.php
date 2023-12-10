@@ -14,7 +14,7 @@ class Organization extends Model
     protected $fillable = [
         'name',
         'slug',
-        'organization_type',
+        'organization_type_id',
     ];
 
     function organisations()
@@ -32,6 +32,11 @@ class Organization extends Model
     {
         return $this->belongsToMany(User::class, 'organization_user')
             ->withPivot('role_id');
+    }
+
+    public function fields()
+    {
+        return $this->belongsToMany(Field::class, 'field_organization_values', 'organization_id', 'field_id')->withPivot('value');
     }
 
     public function getSlugOptions(): SlugOptions

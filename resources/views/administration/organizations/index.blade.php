@@ -6,130 +6,44 @@
         <h2 class="text-lg font-medium mr-auto">
             Organisations
         </h2>
-        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <button class="btn btn-primary shadow-md mr-2">Add New Organisation</button>
-            <div class="dropdown ml-auto sm:ml-0">
-                <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
-                    <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-lucide="plus"></i> </span>
-                </button>
-                <div class="dropdown-menu w-40">
-                    <ul class="dropdown-content">
-                        <li>
-                            <a href="" class="dropdown-item"> <i data-lucide="file-plus" class="w-4 h-4 mr-2"></i> New
-                                Category </a>
-                        </li>
-                        <li>
-                            <a href="" class="dropdown-item"> <i data-lucide="users" class="w-4 h-4 mr-2"></i> New Group
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- BEGIN: Inline Form -->
+    <!-- BEGIN: Striped Rows -->
     <div class="intro-y box mt-5">
-        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">
-                Create New Organisation
-            </h2>
-        </div>
-        <div id="inline-form" class="p-5">
+        <div class="p-5" id="striped-rows-table">
             <div class="preview">
-                <div class="grid grid-cols-12 gap-2">
-                    <input type="text" class="form-control col-span-4" placeholder="Input inline 1"
-                           aria-label="default input inline 1">
-                    <input type="text" class="form-control col-span-4" placeholder="Input inline 2"
-                           aria-label="default input inline 2">
-                    <input type="text" class="form-control col-span-4" placeholder="Input inline 3"
-                           aria-label="default input inline 3">
+                <div class="overflow-x-auto">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="whitespace-nowrap">#</th>
+                            <th class="whitespace-nowrap">Organisation</th>
+                            <th class="whitespace-nowrap">Super Admin</th>
+                            <th class="whitespace-nowrap">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach(\App\Models\Organization::all() as $organisation)
+                            <tr>
+                                <td></td>
+                                <td>{{ $organisation->name }}</td>
+                                <td>Hunnam</td>
+                                <td>@charliehunnam</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="source-code hidden">
-                <button data-target="#copy-inline-form" class="copy-code btn py-1 px-2 btn-outline-secondary"><i
+                <button data-target="#copy-striped-rows-table" class="copy-code btn py-1 px-2 btn-outline-secondary"><i
                         data-lucide="file" class="w-4 h-4 mr-2"></i> Copy example code
                 </button>
-            </div>
-        </div>
-    </div>
-    <!-- END: Inline Form -->
-
-
-
-    <!-- BEGIN: HTML Table Data -->
-    <div class="intro-y box p-5 mt-5">
-        <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">
-            <form id="tabulator-html-filter-form" class="xl:flex sm:mr-auto">
-                <div class="sm:flex items-center sm:mr-4">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Field</label>
-                    <select id="tabulator-html-filter-field"
-                            class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto">
-                        <option value="name">Name</option>
-                        <option value="category">Category</option>
-                        <option value="remaining_stock">Remaining Stock</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Type</label>
-                    <select id="tabulator-html-filter-type" class="form-select w-full mt-2 sm:mt-0 sm:w-auto">
-                        <option value="like" selected>like</option>
-                        <option value="=">=</option>
-                        <option value="<">&lt;</option>
-                        <option value="<=">&lt;=</option>
-                        <option value=">">></option>
-                        <option value=">=">>=</option>
-                        <option value="!=">!=</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Value</label>
-                    <input id="tabulator-html-filter-value" type="text"
-                           class="form-control sm:w-40 2xl:w-full mt-2 sm:mt-0" placeholder="Search...">
-                </div>
-                <div class="mt-2 xl:mt-0">
-                    <button id="tabulator-html-filter-go" type="button" class="btn btn-primary w-full sm:w-16">Go
-                    </button>
-                    <button id="tabulator-html-filter-reset" type="button"
-                            class="btn btn-secondary w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1">Reset
-                    </button>
-                </div>
-            </form>
-            <div class="flex mt-5 sm:mt-0">
-                <button id="tabulator-print" class="btn btn-outline-secondary w-1/2 sm:w-auto mr-2"><i
-                        data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
-                </button>
-                <div class="dropdown w-1/2 sm:w-auto">
-                    <button class="dropdown-toggle btn btn-outline-secondary w-full sm:w-auto" aria-expanded="false"
-                            data-tw-toggle="dropdown"><i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export <i
-                            data-lucide="chevron-down" class="w-4 h-4 ml-auto sm:ml-2"></i></button>
-                    <div class="dropdown-menu w-40">
-                        <ul class="dropdown-content">
-                            <li>
-                                <a id="tabulator-export-csv" href="javascript:;" class="dropdown-item"> <i
-                                        data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export CSV </a>
-                            </li>
-                            <li>
-                                <a id="tabulator-export-json" href="javascript:;" class="dropdown-item"> <i
-                                        data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export JSON </a>
-                            </li>
-                            <li>
-                                <a id="tabulator-export-xlsx" href="javascript:;" class="dropdown-item"> <i
-                                        data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export XLSX </a>
-                            </li>
-                            <li>
-                                <a id="tabulator-export-html" href="javascript:;" class="dropdown-item"> <i
-                                        data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export HTML </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="overflow-y-auto mt-3 rounded-md">
+                    <pre class="source-preview" id="copy-striped-rows-table"> <code class="html"> HTMLOpenTagdiv class=&quot;overflow-x-auto&quot;HTMLCloseTag HTMLOpenTagtable class=&quot;table table-striped&quot;HTMLCloseTag HTMLOpenTagtheadHTMLCloseTag HTMLOpenTagtrHTMLCloseTag HTMLOpenTagth class=&quot;whitespace-nowrap&quot;HTMLCloseTag#HTMLOpenTag/thHTMLCloseTag HTMLOpenTagth class=&quot;whitespace-nowrap&quot;HTMLCloseTagFirst NameHTMLOpenTag/thHTMLCloseTag HTMLOpenTagth class=&quot;whitespace-nowrap&quot;HTMLCloseTagLast NameHTMLOpenTag/thHTMLCloseTag HTMLOpenTagth class=&quot;whitespace-nowrap&quot;HTMLCloseTagUsernameHTMLOpenTag/thHTMLCloseTag HTMLOpenTag/trHTMLCloseTag HTMLOpenTag/theadHTMLCloseTag HTMLOpenTagtbodyHTMLCloseTag HTMLOpenTagtrHTMLCloseTag HTMLOpenTagtdHTMLCloseTag1HTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagAngelinaHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagJolieHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTag@angelinajolieHTMLOpenTag/tdHTMLCloseTag HTMLOpenTag/trHTMLCloseTag HTMLOpenTagtrHTMLCloseTag HTMLOpenTagtdHTMLCloseTag2HTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagBradHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagPittHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTag@bradpittHTMLOpenTag/tdHTMLCloseTag HTMLOpenTag/trHTMLCloseTag HTMLOpenTagtrHTMLCloseTag HTMLOpenTagtdHTMLCloseTag3HTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagCharlieHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTagHunnamHTMLOpenTag/tdHTMLCloseTag HTMLOpenTagtdHTMLCloseTag@charliehunnamHTMLOpenTag/tdHTMLCloseTag HTMLOpenTag/trHTMLCloseTag HTMLOpenTag/tbodyHTMLCloseTag HTMLOpenTag/tableHTMLCloseTag HTMLOpenTag/divHTMLCloseTag </code> </pre>
                 </div>
             </div>
         </div>
-        <div class="overflow-x-auto scrollbar-hidden">
-            <div id="tabulator" class="mt-5 table-report table-report--tabulator"></div>
-        </div>
     </div>
-    <!-- END: HTML Table Data -->
-
+    <!-- END: Striped Rows -->
 @endsection

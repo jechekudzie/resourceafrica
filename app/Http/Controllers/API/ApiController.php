@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\OrganizationController;
 use App\Models\Organization;
 use App\Models\OrganizationType;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
@@ -48,10 +50,42 @@ class ApiController extends Controller
 
     public function addNewOrganization(Request $request)
     {
-        $data = $request->all();
-        $organization = Organization::create($data);
+        $data = OrganizationController::loadOrganisationTypeFields($request->organization_type_id);
+        return response()->json($data);
+    }
 
-        $data = OrganizationType::findOrFail($id)->children()->get();
+    public function saveOrganizationFieldValues(Request $request)
+    {
+        $data = $request->all();
+
+        //first create the organisation
+        $organization = new Organization();
+        $organization->name = $data['organization_name'];
+        $organization->organization_type_id = $data['organization_type_id'];
+        $organization->save();
+
+        //get organisation type fields from organisaiton type
+        $orgtype = OrganizationType::findOrFail($organization->organization_type_id);
+
+        //now save the fields
+        foreach ($orgtype->fields as $field) {
+            $value = $data['input' . $field->id];$organization->fields()->attach($field->id, ['value' => $value]);
+        }
+
+        //now create the organisation's superuser
+        $user = new User([
+            'name' => $data['admin_name'],
+            'email' => $data['admin_email'],
+            'password' => Hash::make('password'),
+            // Add other necessary fields
+        ]);
+
+        $user->save();
+
+        $organization->users()->attach($user->id, ['role_id' => 1]);
+
+
+
         return response()->json($data);
     }
 }

@@ -73,6 +73,10 @@ class OrganizationController extends Controller
     {
         $organizationType = OrganizationType::find($id);
         $data = $organizationType->fields()->get();
-        return response()->json($data);
+
+        //group fields by type
+        $grouped = $data->groupBy('type');
+
+        return response()->json($grouped);
     }
 }

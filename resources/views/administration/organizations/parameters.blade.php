@@ -41,7 +41,7 @@
                 <div
                     class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                     <h2 class="font-medium text-base mr-auto">
-                        Manage Organisation Type Form Fields
+                        Manage <span id="selectedtypename"></span> Form Fields
                     </h2>
                 </div>
                 <div id="inline-form" class="p-5">
@@ -144,6 +144,7 @@
                         // Show modal
                         let id = data.instance.get_node(data.selected[0]).original.id;
                         $('#inline-form').find('#organisation_type_id').val(id);
+                        $('#selectedtypename').text(data.instance.get_node(data.selected[0]).original.text);
 
                         //enable fields-form fields
                         $('#fields-form').find('input, select, button').prop('disabled', false);
@@ -192,11 +193,14 @@
             //methods to populate field table
             function populateFieldTable(data) {
                 $('#fields-table tbody').empty();
-                $.each(data.original, function (index, field) {
-                    $('#fields-table tbody').append(
-                        `
+                var count = 0;
+                $.each(data.original, function (groupName, groupItems) {
+                    $.each(groupItems, function (index, field) {
+                        //loop through fields array and isolate grouped elements
+                        $('#fields-table tbody').append(
+                            `
                                <tr>
-                                    <td>${index + 1}</td>
+                                    <td>${count + 1}</td>
                                     <td>${field.name}</td>
                                     <td>${field.type}</td>
                                     <td>
@@ -242,7 +246,9 @@
                                     </td>
                                 </tr>
                                 `
-                    );
+                        );
+                        count++;
+                    });
                 });
             }
         });
