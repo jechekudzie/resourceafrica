@@ -43,4 +43,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_user')
+            ->withPivot('role_id');
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
 }

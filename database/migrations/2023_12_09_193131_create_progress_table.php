@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('progress', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('organization_type');
-            $table->string('slug');
+            $table->integer('user_id');
+            $table->integer('organization_id')->nullable();
+            $table->integer('step')->default(0);
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('progress');
     }
 };

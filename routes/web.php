@@ -1,7 +1,7 @@
-
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +35,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+//organization controller and methods here
+    Route::get('/administration/organizations', [OrganizationController::class, 'index'])->name('organizations.index');
+    Route::get('/administration/organizations/parameters', [OrganizationController::class, 'parameters'])->name('organisations.parameters');
+    Route::get('/administration/organizations/roles', [OrganizationController::class, 'roles'])->name('organisations.roles');
+    Route::post('/administration/organizations/parameters', [OrganizationController::class, 'saveOrgType'])->name('organisations.create');
+
+//admin.parameters.store route
+    Route::post('/administration/parameters', [OrganizationController::class, 'storeFieldType'])->name('admin.parameters.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
