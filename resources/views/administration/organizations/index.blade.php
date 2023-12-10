@@ -4,10 +4,10 @@
 
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">
-            Tabulator
+            Organisations
         </h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <button class="btn btn-primary shadow-md mr-2">Add New Product</button>
+            <button class="btn btn-primary shadow-md mr-2">Add New Organisation</button>
             <div class="dropdown ml-auto sm:ml-0">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-lucide="plus"></i> </span>
@@ -27,6 +27,36 @@
             </div>
         </div>
     </div>
+
+    <!-- BEGIN: Inline Form -->
+    <div class="intro-y box mt-5">
+        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+            <h2 class="font-medium text-base mr-auto">
+                Create New Organisation
+            </h2>
+        </div>
+        <div id="inline-form" class="p-5">
+            <div class="preview">
+                <div class="grid grid-cols-12 gap-2">
+                    <input type="text" class="form-control col-span-4" placeholder="Input inline 1"
+                           aria-label="default input inline 1">
+                    <input type="text" class="form-control col-span-4" placeholder="Input inline 2"
+                           aria-label="default input inline 2">
+                    <input type="text" class="form-control col-span-4" placeholder="Input inline 3"
+                           aria-label="default input inline 3">
+                </div>
+            </div>
+            <div class="source-code hidden">
+                <button data-target="#copy-inline-form" class="copy-code btn py-1 px-2 btn-outline-secondary"><i
+                        data-lucide="file" class="w-4 h-4 mr-2"></i> Copy example code
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- END: Inline Form -->
+
+
+
     <!-- BEGIN: HTML Table Data -->
     <div class="intro-y box p-5 mt-5">
         <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">

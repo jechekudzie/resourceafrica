@@ -13,6 +13,8 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'slug',
+        'organization_type',
     ];
 
     function organisations()

@@ -17,6 +17,12 @@ class OrganizationController extends Controller
         return view('administration.organizations.index', compact('organizations'));
     }
 
+    public function addOrganisation()
+    {
+        $types = OrganizationType::whereDoesntHave('parents')->get();
+        return view('administration.organizations.add', compact('types'));
+    }
+
     public function parameters()
     {
         $organizations = Organization::all();
@@ -27,6 +33,12 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::all();
         return view('administration.organizations.roles', compact('organizations'));
+    }
+
+    public function userAccounts()
+    {
+        $organizations = Organization::all();
+        return view('administration.organizations.accounts', compact('organizations'));
     }
 
     public function saveOrgType(Request $request)

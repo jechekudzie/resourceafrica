@@ -39,4 +39,19 @@ class ApiController extends Controller
         $data = OrganizationController::loadOrganisationTypeFields($id);
         return response()->json($data);
     }
+
+    public function fetchOrganizationTypeChildren($id)
+    {
+        $data = OrganizationType::findOrFail($id)->children()->get();
+        return response()->json($data);
+    }
+
+    public function addNewOrganization(Request $request)
+    {
+        $data = $request->all();
+        $organization = Organization::create($data);
+
+        $data = OrganizationType::findOrFail($id)->children()->get();
+        return response()->json($data);
+    }
 }

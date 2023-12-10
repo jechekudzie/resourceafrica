@@ -111,7 +111,7 @@
                                           placeholder="Enter organisation type description"
                                           name="description"></textarea>
                             </div>
-                            <input type="hidden" name="parent_id" value="">
+                            <input type="hidden" id="parent_id" name="parent_id" value="">
                             <div class="text-right mt-5">
                                 <button type="submit" class="btn btn-primary">Save Record</button>
                             </div>
@@ -147,6 +147,9 @@
 
                         //enable fields-form fields
                         $('#fields-form').find('input, select, button').prop('disabled', false);
+
+                        //put selected id as value of modal parent_id element
+                        $('#parent_id').val(id);
 
                         //fetch all the fields from the database for this organisation type
                         $.ajax({

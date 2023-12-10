@@ -38,8 +38,10 @@ Route::middleware('auth')->group(function () {
 
 //organization controller and methods here
     Route::get('/administration/organizations', [OrganizationController::class, 'index'])->name('organizations.index');
+    Route::get('/administration/organizations/add', [OrganizationController::class, 'addOrganisation'])->name('organizations.add');
     Route::get('/administration/organizations/parameters', [OrganizationController::class, 'parameters'])->name('organisations.parameters');
     Route::get('/administration/organizations/roles', [OrganizationController::class, 'roles'])->name('organisations.roles');
+    Route::get('/administration/organizations/accounts', [OrganizationController::class, 'userAccounts'])->name('organisations.accounts');
     Route::post('/administration/organizations/parameters', [OrganizationController::class, 'saveOrgType'])->name('organisations.create');
 
 //admin.parameters.store route

@@ -2,7 +2,7 @@
 <html lang="en" class="light">
 <head>
     <meta charset="utf-8">
-    <link href="{{ asset('dist/images/logo.svg') }}" rel="shortcut icon">
+    <link href="{{ asset('administration/dist/images/logo.svg') }}" rel="shortcut icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
@@ -19,7 +19,7 @@
 <div class="mobile-menu md:hidden">
     <div class="mobile-menu-bar">
         <a href="" class="flex mr-auto">
-            <img alt="HTML Admin Section" class="w-6" src="{{ asset('dist/images/logo.svg') }}">
+            <img alt="HTML Admin Section" class="w-6" src="{{ asset('administration/dist/images/logo.svg') }}">
         </a>
         <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="bar-chart-2"
                                                                class="w-8 h-8 text-white transform -rotate-90"></i> </a>
@@ -729,8 +729,14 @@
                 </a>
                 <ul class="">
                     <li>
+                        <a href="{{ route('organizations.add') }}" class="side-menu">
+                            <div class="side-menu__icon"><i data-lucide="edit"></i></div>
+                            <div class="side-menu__title"> Add New</div>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('organizations.index') }}" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="table"></i></div>
+                            <div class="side-menu__icon"><i data-lucide="list"></i></div>
                             <div class="side-menu__title"> Manage</div>
                         </a>
                     </li>
@@ -746,27 +752,15 @@
                 <a href="javascript:;" class="side-menu">
                     <div class="side-menu__icon"><i data-lucide="users"></i></div>
                     <div class="side-menu__title">
-                        User Accounts
+                        User Management
                         <div class="side-menu__sub-icon "><i data-lucide="chevron-down"></i></div>
                     </div>
                 </a>
                 <ul class="">
                     <li>
-                        <a href="{{ route('organisations.roles') }}" class="side-menu">
+                        <a href="{{ route('organisations.accounts') }}" class="side-menu">
                             <div class="side-menu__icon"><i data-lucide="user"></i></div>
-                            <div class="side-menu__title"> Roles</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="side-menu-light-users-layout-2.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Layout 2</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="side-menu-light-users-layout-3.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Layout 3</div>
+                            <div class="side-menu__title"> Accounts</div>
                         </a>
                     </li>
                 </ul>
@@ -797,217 +791,16 @@
                                                               class="notification__icon dark:text-slate-500"></i> </a>
                 <div class="search-result">
                     <div class="search-result__content">
-                        <div class="search-result__content__title">Pages</div>
-                        <div class="mb-5">
-                            <a href="" class="flex items-center">
-                                <div
-                                    class="w-8 h-8 bg-success/20 dark:bg-success/10 text-success flex items-center justify-center rounded-full">
-                                    <i class="w-4 h-4" data-lucide="inbox"></i></div>
-                                <div class="ml-3">Mail Settings</div>
-                            </a>
-                            <a href="" class="flex items-center mt-2">
-                                <div
-                                    class="w-8 h-8 bg-pending/10 text-pending flex items-center justify-center rounded-full">
-                                    <i class="w-4 h-4" data-lucide="users"></i></div>
-                                <div class="ml-3">Users & Permissions</div>
-                            </a>
-                            <a href="" class="flex items-center mt-2">
-                                <div
-                                    class="w-8 h-8 bg-primary/10 dark:bg-primary/20 text-primary/80 flex items-center justify-center rounded-full">
-                                    <i class="w-4 h-4" data-lucide="credit-card"></i></div>
-                                <div class="ml-3">Transactions Report</div>
-                            </a>
-                        </div>
-                        <div class="search-result__content__title">Users</div>
-                        <div class="mb-5">
-                            <a href="" class="flex items-center mt-2">
-                                <div class="w-8 h-8 image-fit">
-                                    <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                         src="dist/images/profile-7.jpg">
-                                </div>
-                                <div class="ml-3">Kevin Spacey</div>
-                                <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">
-                                    kevinspacey@left4code.com
-                                </div>
-                            </a>
-                            <a href="" class="flex items-center mt-2">
-                                <div class="w-8 h-8 image-fit">
-                                    <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                         src="dist/images/profile-2.jpg">
-                                </div>
-                                <div class="ml-3">Johnny Depp</div>
-                                <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">
-                                    johnnydepp@left4code.com
-                                </div>
-                            </a>
-                            <a href="" class="flex items-center mt-2">
-                                <div class="w-8 h-8 image-fit">
-                                    <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                         src="dist/images/profile-5.jpg">
-                                </div>
-                                <div class="ml-3">Johnny Depp</div>
-                                <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">
-                                    johnnydepp@left4code.com
-                                </div>
-                            </a>
-                            <a href="" class="flex items-center mt-2">
-                                <div class="w-8 h-8 image-fit">
-                                    <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                         src="dist/images/profile-9.jpg">
-                                </div>
-                                <div class="ml-3">Morgan Freeman</div>
-                                <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">
-                                    morganfreeman@left4code.com
-                                </div>
-                            </a>
-                        </div>
-                        <div class="search-result__content__title">Products</div>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/preview-9.jpg">
-                            </div>
-                            <div class="ml-3">Oppo Find X2 Pro</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">Smartphone &amp;
-                                Tablet
-                            </div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/preview-1.jpg">
-                            </div>
-                            <div class="ml-3">Nikon Z6</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">Photography</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/preview-2.jpg">
-                            </div>
-                            <div class="ml-3">Sony Master Series A9G</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">Electronic</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/preview-8.jpg">
-                            </div>
-                            <div class="ml-3">Dell XPS 13</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">PC &amp; Laptop</div>
-                        </a>
                     </div>
                 </div>
             </div>
             <!-- END: Search -->
-            <!-- BEGIN: Notifications -->
-            <div class="intro-x dropdown mr-auto sm:mr-6">
-                <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button"
-                     aria-expanded="false" data-tw-toggle="dropdown"><i data-lucide="bell"
-                                                                        class="notification__icon dark:text-slate-500"></i>
-                </div>
-                <div class="notification-content pt-2 dropdown-menu">
-                    <div class="notification-content__box dropdown-content">
-                        <div class="notification-content__title">Notifications</div>
-                        <div class="cursor-pointer relative flex items-center ">
-                            <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/profile-7.jpg">
-                                <div
-                                    class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
-                            </div>
-                            <div class="ml-2 overflow-hidden">
-                                <div class="flex items-center">
-                                    <a href="javascript:;" class="font-medium truncate mr-5">Kevin Spacey</a>
-                                    <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
-                                </div>
-                                <div class="w-full truncate text-slate-500 mt-0.5">Lorem Ipsum is simply dummy text of
-                                    the printing and typesetting industry. Lorem Ipsum has been the industry&#039;s
-                                    standard dummy text ever since the 1500
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cursor-pointer relative flex items-center mt-5">
-                            <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/profile-2.jpg">
-                                <div
-                                    class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
-                            </div>
-                            <div class="ml-2 overflow-hidden">
-                                <div class="flex items-center">
-                                    <a href="javascript:;" class="font-medium truncate mr-5">Johnny Depp</a>
-                                    <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
-                                </div>
-                                <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem
-                                    Ipsum is not simply random text. It has roots in a piece of classical Latin
-                                    literature from 45 BC, making it over 20
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cursor-pointer relative flex items-center mt-5">
-                            <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/profile-5.jpg">
-                                <div
-                                    class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
-                            </div>
-                            <div class="ml-2 overflow-hidden">
-                                <div class="flex items-center">
-                                    <a href="javascript:;" class="font-medium truncate mr-5">Johnny Depp</a>
-                                    <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">05:09 AM</div>
-                                </div>
-                                <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages
-                                    of Lorem Ipsum available, but the majority have suffered alteration in some form, by
-                                    injected humour, or randomi
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cursor-pointer relative flex items-center mt-5">
-                            <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/profile-9.jpg">
-                                <div
-                                    class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
-                            </div>
-                            <div class="ml-2 overflow-hidden">
-                                <div class="flex items-center">
-                                    <a href="javascript:;" class="font-medium truncate mr-5">Morgan Freeman</a>
-                                    <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
-                                </div>
-                                <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem
-                                    Ipsum is not simply random text. It has roots in a piece of classical Latin
-                                    literature from 45 BC, making it over 20
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cursor-pointer relative flex items-center mt-5">
-                            <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                                     src="dist/images/profile-1.jpg">
-                                <div
-                                    class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white dark:border-darkmode-600"></div>
-                            </div>
-                            <div class="ml-2 overflow-hidden">
-                                <div class="flex items-center">
-                                    <a href="javascript:;" class="font-medium truncate mr-5">Denzel Washington</a>
-                                    <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">03:20 PM</div>
-                                </div>
-                                <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem
-                                    Ipsum is not simply random text. It has roots in a piece of classical Latin
-                                    literature from 45 BC, making it over 20
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Notifications -->
             <!-- BEGIN: Account Menu -->
             <div class="intro-x dropdown w-8 h-8">
                 <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in"
                      role="button" aria-expanded="false" data-tw-toggle="dropdown">
-                    <img alt="Midone - HTML Admin Template" src="dist/images/profile-5.jpg">
+                    <img alt="Midone - HTML Admin Template"
+                         src="{{ asset('administration/dist/images/profile-5.jpg') }}">
                 </div>
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary text-white">
