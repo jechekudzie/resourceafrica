@@ -8,6 +8,7 @@ use App\Models\Organization;
 use App\Models\OrganizationType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -88,8 +89,8 @@ class ApiController extends Controller
             'organization_id' => $organization->id
         ]);
 
-        // Assign the role to the user
-        $user->assignRole($role);
+        $organization->users()->attach($user->id, ['role_id' => $role->id]);
+        $user->roles()->attach($role, ['organization_id' => $organization->id]);
 
         return response()->json($data);
     }
