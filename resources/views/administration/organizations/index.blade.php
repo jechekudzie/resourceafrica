@@ -27,7 +27,7 @@
                             <tr>
                                 <td></td>
                                 <td>{{ $organisation->name }}</td>
-                                <td>Hunnam</td>
+                                <td>{{ $organisation->users()->first()->name }}</td>
                                 <td>@charliehunnam</td>
                             </tr>
                         @endforeach

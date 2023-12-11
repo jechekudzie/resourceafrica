@@ -9,6 +9,7 @@ use App\Models\OrganizationType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class ApiController extends Controller
 {
@@ -69,7 +70,8 @@ class ApiController extends Controller
 
         //now save the fields
         foreach ($orgtype->fields as $field) {
-            $value = $data['input' . $field->id];$organization->fields()->attach($field->id, ['value' => $value]);
+            $value = $data['input' . $field->id];
+            $organization->fields()->attach($field->id, ['value' => $value]);
         }
 
         //now create the organisation's superuser
@@ -77,14 +79,17 @@ class ApiController extends Controller
             'name' => $data['admin_name'],
             'email' => $data['admin_email'],
             'password' => Hash::make('password'),
-            // Add other necessary fields
         ]);
 
         $user->save();
 
-        $organization->users()->attach($user->id, ['role_id' => 1]);
+        $role = Role::create([
+            'name' => 'super_admin',
+            'organization_id' => $organization->id
+        ]);
 
-
+        // Assign the role to the user
+        $user->assignRole($role);
 
         return response()->json($data);
     }
