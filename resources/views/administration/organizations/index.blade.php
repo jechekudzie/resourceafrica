@@ -25,7 +25,7 @@
                         <tbody>
                         @foreach(\App\Models\Organization::all() as $organisation)
                             <tr>
-                                <td></td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $organisation->name }}</td>
                                 <td>{{ $organisation->users()->first()->name }}</td>
                                 <td>@charliehunnam</td>

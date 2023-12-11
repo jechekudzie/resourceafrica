@@ -684,16 +684,16 @@
         <div class="side-nav__devider my-6"></div>
         <ul>
             <li>
-                <a href="javascript:;" class="side-menu side-menu--active">
+                <a href="javascript:;" class="side-menu">
                     <div class="side-menu__icon"><i data-lucide="home"></i></div>
                     <div class="side-menu__title">
                         Dashboard
                         <div class="side-menu__sub-icon transform rotate-180"><i data-lucide="chevron-down"></i></div>
                     </div>
                 </a>
-                <ul class="side-menu__sub-open">
+                <ul class="">
                     <li>
-                        <a href="index.html" class="side-menu side-menu--active">
+                        <a href="index.html" class="side-menu">
                             <div class="side-menu__icon"><i data-lucide="activity"></i></div>
                             <div class="side-menu__title"> Overview 1</div>
                         </a>
@@ -720,28 +720,31 @@
             </li>
             <li class="side-nav__devider my-6"></li>
             <li>
-                <a href="javascript:;" class="side-menu">
+                <a href="javascript:;" class="side-menu side-menu--active">
                     <div class="side-menu__icon"><i data-lucide="building"></i></div>
                     <div class="side-menu__title">
                         Organisations
                         <div class="side-menu__sub-icon "><i data-lucide="chevron-down"></i></div>
                     </div>
                 </a>
-                <ul class="">
+                <ul class="side-menu__sub-open">
                     <li>
-                        <a href="{{ route('organizations.add') }}" class="side-menu">
+                        <a href="{{ route('organizations.add') }}"
+                           class="side-menu {{ Route::currentRouteNamed('organizations.add') ? 'side-menu--active' : '' }}">
                             <div class="side-menu__icon"><i data-lucide="edit"></i></div>
                             <div class="side-menu__title"> Add New</div>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('organizations.index') }}" class="side-menu">
+                        <a href="{{ route('organizations.index') }}"
+                           class="side-menu {{ Route::currentRouteNamed('organizations.index') ? 'side-menu--active' : '' }}">
                             <div class="side-menu__icon"><i data-lucide="list"></i></div>
                             <div class="side-menu__title"> Manage</div>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('organisations.parameters') }}" class="side-menu">
+                        <a href="{{ route('organisations.parameters') }}"
+                           class="side-menu {{ Route::currentRouteNamed('organisations.parameters') ? 'side-menu--active' : '' }}">
                             <div class="side-menu__icon"><i data-lucide="settings"></i></div>
                             <div class="side-menu__title"> Parameters</div>
                         </a>
@@ -799,8 +802,8 @@
             <div class="intro-x dropdown w-8 h-8">
                 <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in"
                      role="button" aria-expanded="false" data-tw-toggle="dropdown">
-                    <img alt="Midone - HTML Admin Template"
-                         src="{{ asset('administration/dist/images/profile-5.jpg') }}">
+                    <img
+                            src="{{ asset('administration/dist/images/profile-5.jpg') }}">
                 </div>
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary text-white">

@@ -36,7 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-//organization controller and methods here
+
+    //organization controller and methods here
     Route::get('/administration/organizations', [OrganizationController::class, 'index'])->name('organizations.index');
     Route::get('/administration/organizations/add', [OrganizationController::class, 'addOrganisation'])->name('organizations.add');
     Route::get('/administration/organizations/parameters', [OrganizationController::class, 'parameters'])->name('organisations.parameters');
