@@ -5,11 +5,6 @@
     <link href="{{ asset('administration/dist/images/logo.svg') }}" rel="shortcut icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-          content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
-    <meta name="keywords"
-          content="admin template, Midone Admin Template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="LEFT4CODE">
     <title>CAMPFIRE ASSOCIATION</title>
     <link rel="stylesheet" href="{{ asset('administration/dist/css/app.css') }}"/>
 
@@ -34,7 +29,7 @@
                                                                class="w-8 h-8 text-white transform -rotate-90"></i> </a>
         <ul class="scrollable__content py-2">
             <li>
-                <a href="javascript:html" class="menu menu--active">
+                <a href="javascript:html" class="menu">
                     <div class="menu__icon"><i data-lucide="home"></i></div>
                     <div class="menu__title"> Dashboard <i data-lucide="chevron-down"
                                                            class="menu__sub-icon transform rotate-180"></i></div>
