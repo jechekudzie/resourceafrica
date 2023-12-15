@@ -27,7 +27,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $organisation->name }}</td>
-                                <td>{{ $organisation->users()->first()->name }}</td>
+                                <td></td>
                                 <td>@charliehunnam</td>
                             </tr>
                         @endforeach

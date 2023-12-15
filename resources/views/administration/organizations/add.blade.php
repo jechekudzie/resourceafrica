@@ -2,309 +2,369 @@
 
 @section('content')
 
-    <!-- END: Top Bar -->
-    <div class="flex items-center mt-8">
-        <h2 class="intro-y text-lg font-medium mr-auto">
-            Set up organisations
-        </h2>
-    </div>
-    <!-- BEGIN: Wizard Layout -->
-    <div class="intro-y box py-10 sm:py-20 mt-5">
-        <div class="flex justify-center">
-            <button class="intro-y w-10 h-10 rounded-full btn btn-primary mx-2" id="step1">1</button>
-            <button
-                class="intro-y w-10 h-10 rounded-full btn bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500 mx-2"
-                id="step2">
-                2
-            </button>
-            <button
-                class="intro-y w-10 h-10 rounded-full btn bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500 mx-2"
-                id="step3">
-                3
-            </button>
-        </div>
-        <div class="px-5 mt-10">
-            <div class="font-medium text-center text-lg">Setup a new organisation</div>
-            <div class="text-slate-500 text-center mt-2">To start off, please enter the organisation name and select its
-                type in the hierarchy
-            </div>
-        </div>
-        <div class="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
-            <div class="font-medium text-base">Create New Organisation</div>
-
-            <div id="inline-form" class="pt-5">
-                <div class="preview">
-                    <div class="grid grid-cols-12 gap-2" id="input-fields">
-                        <input id="name" name="name" type="text" class="form-control col-span-4 mt-5"
-                               placeholder="Enter Name of Organisation"
-                               aria-label="default input inline 1">
-                        <select type="text" class="dynamicSelect form-control col-span-4 mt-5"
-                                aria-label="default input inline 2">
-                            <option selected>Select Organisation Type</option>
-                            @foreach($types as $organisation_type)
-                                <option value="{{ $organisation_type->id }}"
-                                        data-id="{{ $organisation_type->id }}"
-                                        class="organizationtype">{{ $organisation_type->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    <div class="grid grid-cols-12 gap-6 mt-8">
+        <div class="col-span-12 lg:col-span-9 2xl:col-span-10">
+            <!-- BEGIN: Inbox Filter -->
+            <div class="intro-y flex flex-col-reverse sm:flex-row items-center">
+                <div class="w-full sm:w-auto flex">
+                    <a href="javascript:;"
+                       class="btn btn-primary">Add Organisations</a>
                 </div>
             </div>
+            <!-- END: Inbox Filter -->
+        </div>
+    </div>
 
-            <!-- BEGIN: Inline Form -->
-            <div class="intro-y mt-5" id="formcontainer" style="display: none">
-                <div id="inline-form">
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 lg:col-span-4">
+            <!-- BEGIN: Blank Modal -->
+            <div class="intro-y box">
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                    <h2 class="font-medium text-base mr-auto">
+                        Organisation Types
+                    </h2>
+                </div>
+                <div class="p-5">
+                    <div id="evts" class="demo"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="intro-y col-span-12 lg:col-span-8">
+
+            <!-- BEGIN: Link Tab -->
+            <div class="intro-y box">
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                    <h2 class="font-medium text-base mr-auto">
+                        Manage Organisation Details
+                    </h2>
+                </div>
+                <div id="link-tab" class="p-5">
                     <div class="preview">
-                        <form id="fieldvaluesform" method="post"
-                              action="{{ url('/administration/organizations/fields/store') }}">
-                            @csrf
-                            <div class="grid grid-cols-12 gap-2" id="fieldset">
+                        <ul class="nav nav-link-tabs" role="tablist">
+                            <li id="example-5-tab" class="nav-item flex-1" role="presentation">
+                                <button class="nav-link w-full py-2 active" data-tw-toggle="pill"
+                                        data-tw-target="#example-tab-5" type="button" role="tab"
+                                        aria-controls="example-tab-5" aria-selected="true"> Details
+                                </button>
+                            </li>
+                            <li id="example-6-tab" class="nav-item flex-1" role="presentation">
+                                <button class="nav-link w-full py-2" data-tw-toggle="pill"
+                                        data-tw-target="#example-tab-6" type="button" role="tab"
+                                        aria-controls="example-tab-6" aria-selected="false"> Roles &amp; Permissions
+                                </button>
+                            </li>
+                            <li id="example-7-tab" class="nav-item flex-1" role="presentation">
+                                <button class="nav-link w-full py-2" data-tw-toggle="pill"
+                                        data-tw-target="#example-tab-7" type="button" role="tab"
+                                        aria-controls="example-tab-7" aria-selected="false"> User Accounts
+                                </button>
+                            </li>
+                            <li id="example-8-tab" class="nav-item flex-1" role="presentation">
+                                <button class="nav-link w-full py-2" data-tw-toggle="pill"
+                                        data-tw-target="#example-tab-8" type="button" role="tab"
+                                        aria-controls="example-tab-8" aria-selected="false"> Reports
+                                </button>
+                            </li>
+                            <li id="example-9-tab" class="nav-item flex-1" role="presentation">
+                                <button class="nav-link w-full py-2" data-tw-toggle="pill"
+                                        data-tw-target="#example-tab-9" type="button" role="tab"
+                                        aria-controls="example-tab-9" aria-selected="false"> Settings
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-5">
+                            <div id="example-tab-5" class="tab-pane grid grid-cols-12 gap-2 leading-relaxed active"
+                                 role="tabpanel"
+                                 aria-labelledby="example-5-tab">
                             </div>
-                            <input type="hidden" name="organization_type_id" id="organization_type_id"/>
-                            <input type="hidden" name="admin_name" id="adminname"/>
-                            <input type="hidden" name="admin_email" id="adminemail"/>
-                            <input type="hidden" name="organization_name" id="organization_name"/>
-                        </form>
+                            <div id="example-tab-6" class="tab-pane tab-pane grid grid-cols-12 gap-2"
+                                 role="tabpanel"
+                                 aria-labelledby="example-6-tab">
+
+
+                                <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4">
+                                    <div class="box p-5">
+                                        <form id="addRoleForm" method="post" action="{{ route('admin.roles.store') }}">
+                                            @csrf
+                                            <div class="preview">
+                                                <div>
+                                                    <label for="vertical-form-1" class="form-label">Role</label>
+                                                    <input id="vertical-form-1" name="name" type="text"
+                                                           class="form-control" required
+                                                           placeholder="Create a New Role">
+                                                </div>
+                                                <input type="hidden" id="role_organization_id" name="organization_id">
+                                                <button class="btn btn-primary mt-5" type="submit">Create Role
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="intro-y col-span-12 md:col-span-8 lg:col-span-8">
+                                    <div class="box">
+                                        <table class="table table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th class="whitespace-nowrap">#</th>
+                                                <th class="whitespace-nowrap">Role Name</th>
+                                                <th class="whitespace-nowrap">Permissions</th>
+                                                <th class="whitespace-nowrap">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="rolesTable">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="example-tab-7" class="tab-pane leading-relaxed active" role="tabpanel"
+                                 aria-labelledby="example-7-tab">
+
+
+                            </div>
+                            <div id="example-tab-8" class="tab-pane leading-relaxed" role="tabpanel"
+                                 aria-labelledby="example-8-tab">
+
+
+                            </div>
+                            <div id="example-tab-9" class="tab-pane leading-relaxed" role="tabpanel"
+                                 aria-labelledby="example-9-tab">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END: Inline Form -->
-
-            <div class="grid grid-cols-12 gap-4 gap-y-5 mt-5" id="adminAccount" style="display: none">
-                <div class="intro-y col-span-12 sm:col-span-6">
-                    <label for="input-wizard-1" class="form-label">Admin Name</label>
-                    <input id="admin_name" type="text" class="form-control" placeholder="Name of Super Admin">
-                </div>
-                <div class="intro-y col-span-12 sm:col-span-6">
-                    <label for="input-wizard-2" class="form-label">Email Address</label>
-                    <input id="admin_email" type="email" class="form-control"
-                           placeholder="Enter the Administrator's Email Address">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-12 gap-4 gap-y-5 mt-5">
-                <div class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
-                    <button class="btn btn-secondary w-24" id="previousScreen">Previous</button>
-                    <button class="btn btn-primary w-24 ml-2" id="saveOrganisation">Next</button>
-                </div>
-            </div>
+            <!-- END: Basic Tab -->
         </div>
     </div>
-    <!-- END: Wizard Layout -->
 
 @endsection
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script>
-        var selectedValue;
-        var step = 1;
-        var hasFetched = false;
-
-        $(document).on('click', '.dynamicSelect', function () {
-            selectedValue = $(this).val(); // get selected
-            var selectElement = $(this);
-            selectElement.nextAll('.dynamicSelect').remove();
-
-            if (!isNaN(selectedValue)) {
-                $.ajax({
-                    url: '/api/administration/organizations/get-children/' + selectedValue,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.length !== 0) {
-                            appendNewSelect(data)
-                        }
-                    }
-                });
-            }
-
-            function appendNewSelect(data) {
-                var select = $('<select/>', {
-                    id: '',   // set the ID attribute
-                    class: 'dynamicSelect form-control col-span-4 mt-5' // set the class attribute
-                });
-                select.append('<option selected>Select Organisation Type</option>');
-                $.each(data, function (key, value) {
-                    select.append('<option data-id="' + value.id + '" class="organizationtype" value="' + value.id + '">' + value.name + '</option>');
-                });
-                $('#input-fields').append(select);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        $(document).on('click', '#saveOrganisation', function () {
+        let [rand, type, id] = [null, null, null];
+        let parentNodeId = null;
 
-            if (step === 1) {
-                var lastSelect = selectedValue;
+        $('#evts')
+            .on("changed.jstree", function (e, data) {
+                let selectedNodeId = data.selected[0];
 
-                // display loading animation just below the button
-                var loading = $('<div/>', {
-                    class: 'spinner-border text-primary',
-                    role: 'status'
-                });
+                // get parent of the selected node id
+                parentNodeId = $('#evts').jstree(true).get_parent(selectedNodeId);
 
-                loading.append($('<span/>', {
-                    class: 'sr-only',
-                    text: 'Loading...'
-                }));
+                if (data.selected.length) {
+                    [rand, type, id] = data.instance.get_node(data.selected[0]).original.id.split('-');
 
-                $('#topform').after(loading);
-
-                if (!isNaN(lastSelect)) {
-                    if (!hasFetched) {
-                        $.ajax({
-                            url: '/api/administration/organizations/store',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {
-                                organization_type_id: lastSelect
-                            },
-                            success: function (data) {
-                                $('#formcontainer').show();
-                                $.each(data.original, function (groupName, groupItems) {
-                                    $.each(groupItems, function (index, field) {
-                                        //switch case groupedItems type
-                                        switch (field.type) {
-                                            case 'text':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="text" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'number':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="number" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'textarea':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><textarea class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></textarea></div>');
-                                                break;
-                                            case 'select':
-                                                var select = $('<select/>', {
-                                                    id: '',
-                                                    class: 'form-control col-span-4',
-                                                    name: 'input' + field.id,
-                                                });
-                                                select.append('<option selected>Select ' + field.name + '</option>');
-                                                $.each(field.options, function (key, value) {
-                                                    select.append('<option value="' + value + '">' + value + '</option>');
-                                                });
-                                                $('#fieldset').append(select);
-                                                break;
-                                            case 'checkbox':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="checkbox" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'radio':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="radio" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'date':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'time':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="time" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                            case 'date':
-                                                $('#fieldset').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
-                                                break;
-                                        }
-                                        //put a hr and move to next row
-                                        $('#fieldset').append('<hr class="col-span-12 my-5">');
-                                    });
-                                });
-                                hasFetched = true;
-                            }
-                        }).always(function () {
-                            // remove loading spinner regardless of AJAX request was successful or not
-                            loading.remove();
-                        });
+                    //set role_organization_id to id
+                    if (type === 'o') {
+                        $('#role_organization_id').val(id);
                     } else {
-                        // Just show the formcontainer if it's already populated
-                        $('#formcontainer').show();
+                        $('#role_organization_id').val('');
                     }
-                    step++;
+
+                    //ajax call to bring up the form fields
+                    $.ajax({
+                        url: '/api/administration/organization-types/fields',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            type: type,
+                            id: id,
+                            rand: rand,
+                            parent: parentNodeId
+                        },
+                        success: function (data) {
+                            $('#example-tab-5').empty();
+                            $.each(data.original, function (groupName, groupItems) {
+                                $.each(groupItems, function (index, field) {
+                                    //switch case groupedItems type
+                                    switch (field.type) {
+                                        case 'text':
+                                            var value = field.pivot.value ? field.pivot.value : '';
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="text" class="form-control" name="input' + field.id + '" value="' + value + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'number':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="number" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'textarea':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><textarea class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></textarea></div>');
+                                            break;
+                                        case 'select':
+                                            var select = $('<select/>', {
+                                                id: '',
+                                                class: 'form-control col-span-4',
+                                                name: 'input' + field.id,
+                                            });
+                                            select.append('<option selected>Select ' + field.name + '</option>');
+                                            $.each(field.options, function (key, value) {
+                                                select.append('<option value="' + value + '">' + value + '</option>');
+                                            });
+                                            $('#example-tab-5').append(select);
+                                            break;
+                                        case 'checkbox':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="checkbox" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'radio':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="radio" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'date':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'time':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="time" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                        case 'date':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            break;
+                                    }
+                                });
+                                //put a hr and move to next row
+                                $('#example-tab-5').append('<hr class="col-span-12 my-5">');
+                                $('#example-tab-5').append(`<div style="text-align: end" class="col-span-12 float-right">
+                                    <button id="saveButton" class="btn btn-primary">Save Record</button>
+                                </div>`);
+                            });
+                            fetchOrganizationRoles(id, type);
+                            hasFetched = true;
+                        }
+                    });
                 }
-            }
+            })
+            .jstree({
+                'core': {
+                    'multiple': false,
+                    'data': {
+                        'url': '/api/administration/organizations/instances',
+                        'dataType': 'json'
+                    },
+                }
+            });
 
-            if (step === 2) {
-                //step2 button add primary class
-                $('#step2').removeClass('bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500');
-                $('#step2').addClass('btn-primary');
-                $('#inline-form').hide();
-                $('#formcontainer').show();
-                step++;
-                //stop propagating the click event
-                return false;
-            }
+        $(document).on('click', '#saveButton', function () {
+            var form = $('<form/>', {
+                id: 'saveForm',
+                action: '/api/administration/organizations/store',
+                method: 'POST',
+                enctype: 'multipart/form-data'
+            });
+            $.each($('#example-tab-5').find('input, select, textarea'), function (index, field) {
+                var input = $('<input/>', {
+                    type: 'hidden',
+                    name: field.name,
+                    value: field.value
+                });
+                form.append(input);
+            });
 
-            if (step === 3) {
-                //step3 button add primary class
-                $('#step3').removeClass('bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500');
-                $('#step3').addClass('btn-primary');
-                $('#formcontainer').hide();
-                $('#adminAccount').show();
-                $('#saveOrganisation').text('Finish');
-                step++;
-                //stop propagating the click event
-                return false;
-            }
+            //add type and id form fields
+            var input = $('<input/>', {
+                type: 'hidden',
+                name: 'type',
+                value: type
+            });
 
-            //if step is 4, then save the organisation
-            if (step === 4) {
-                //grab the fieldvaluesform
-                var fieldValues = $('#fieldvaluesform').serializeArray();
+            form.append(input);
 
-                //add the admin name and email to the fieldValues
-                $('#adminname').val($('#admin_name').val());
-                $('#adminemail').val($('#admin_email').val());
-                $('#organization_type_id').val(selectedValue);
-                $('#organization_name').val($('#name').val());
+            var input = $('<input/>', {
+                type: 'hidden',
+                name: 'id',
+                value: id
+            });
 
-                $("#fieldvaluesform").submit();
-            }
-        });
+            form.append(input);
 
-        // Handle form submission
-        $("#fieldvaluesform").on('submit', function (e) {
-            // Prevent the form from being submitted normally
-            e.preventDefault();
+            var input = $('<input/>', {
+                type: 'hidden',
+                name: 'parent',
+                value: parentNodeId
+            });
 
-            // Serialize the form data
-            var formData = $(this).serialize();
+            form.append(input);
 
-            // Make AJAX request
+            //add form to dom
+            $('body').append(form);
+
+            //submit form with ajax
             $.ajax({
-                url: '/api/administration/organizations/fields/store',
+                url: '/api/administration/organizations/store',
                 type: 'POST',
                 dataType: 'json',
-                data: formData,
-                success: function (response) {
-                    // Handle success response
-                    console.log(response);
-                    window.location.href = '/administration/organizations';
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    console.log('Error: ' + error.message);
-                    console.log('Status: ' + status);
-                    console.log(xhr.responseText);
+                data: form.serialize(),
+                success: function (data) {
+                    console.log(data.parent);
+                    $('#evts').jstree(true).refresh();
+                    setTimeout(function () {
+                        $('#evts').jstree('open_node', data.parent);
+                    }, 1000);
                 }
             });
         });
 
-        //previous screen on click
-        $(document).on('click', '#previousScreen', function () {
-            if (step === 2) {
-                $('#step2').removeClass('btn-primary');
-                $('#step2').addClass('bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500');
-                $('#formcontainer').hide();
-                $('#inline-form').show();
-                step--;
-            }
+        function fetchOrganizationRoles(id, type) {
+            $.ajax({
+                url: '/api/administration/roles/' + id + '/' + type,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#rolesTable').empty();
+                    $.each(data, function (index, role) {
+                        $('#rolesTable').append(`<tr>
+                        <td>${index + 1}</td>
+                        <td>${role.name}</td>
+                        <td>
+                            <div class="flex">
+                                <a class="warning flex items-center mr-3" href="javascript:;">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="key" data-lucide="key" class="lucide lucide-key block mx-auto"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                                    &nbsp;Configure
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                            <a class="save flex items-center mr-3" href="javascript:;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="edit" data-lucide="edit" class="lucide lucide-edit block mx-auto"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                Edit
+                                            </a>
+                                            <a class="delete flex items-center text-danger" href="javascript:;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="trash-2" data-lucide="trash-2" class="lucide lucide-trash-2 w-4 h-4 mr-1">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                Delete
+                                            </a>
+                                        </div>
+                        </td>
+                    </tr>`);
+                    });
+                }
+            });
+        }
 
-            if (step === 4) {
-                $('#step3').removeClass('btn-primary');
-                $('#step3').addClass('bg-slate-100 dark:bg-darkmode-400 dark:border-darkmode-400 text-slate-500');
-                $('#adminAccount').hide();
-                $('#formcontainer').show();
-                $('#saveOrganisation').text('Next');
-                step -= 2;
-            }
+        $("#addRoleForm").on("submit", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "/administration/organisation/roles",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    // handle response
+                }
+            });
         });
-
-
     </script>
 @endpush

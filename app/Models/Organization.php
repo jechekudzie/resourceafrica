@@ -34,6 +34,11 @@ class Organization extends Model
             ->withPivot('role_id');
     }
 
+    public function roles()
+    {
+        return $this->hasMany(Role::class, 'organization_id');
+    }
+
     public function fields()
     {
         return $this->belongsToMany(Field::class, 'field_organization_values', 'organization_id', 'field_id')->withPivot('value');

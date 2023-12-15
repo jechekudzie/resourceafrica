@@ -24,11 +24,6 @@
                     <h2 class="font-medium text-base mr-auto">
                         Organisation Types
                     </h2>
-                    <div class="preview">
-                        <button class="btn btn-dark mr-1 mb-2"><i data-lucide="plus" class="w-5 h-5"></i></button>
-                        <button class="btn btn-primary mr-1 mb-2"><i data-lucide="edit" class="w-5 h-5"></i></button>
-                        <button class="btn btn-danger mr-1 mb-2"><i data-lucide="trash" class="w-5 h-5"></i></button>
-                    </div>
                 </div>
                 <div class="p-5">
                     <div id="evts" class="demo"></div>

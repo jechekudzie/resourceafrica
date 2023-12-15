@@ -19,4 +19,9 @@ class Field extends Model
     {
         return $this->belongsToMany(OrganizationType::class, 'field_organization_types');
     }
+
+    public function fieldType()
+    {
+        return $this->belongsTo(FieldType::class);
+    }
 }

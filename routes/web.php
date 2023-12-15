@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
 //admin.parameters.store route
     Route::post('/administration/parameters', [OrganizationController::class, 'storeFieldType'])->name('admin.parameters.store');
+    Route::post('/administration/organisation/roles', [OrganizationController::class, 'storeOrganisationRole'])->name('admin.roles.store');
 });
 
 require __DIR__ . '/auth.php';
