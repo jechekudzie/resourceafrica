@@ -12,8 +12,13 @@
     <meta name="author" content="LEFT4CODE">
     <title>CAMPFIRE ASSOCIATION</title>
     <link rel="stylesheet" href="{{ asset('administration/dist/css/app.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+
+    <!-- DataTables JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
 </head>
 <body class="py-5">
 <div class="mobile-menu md:hidden">
@@ -679,45 +684,146 @@
     <nav class="side-nav">
         <a href="" class="intro-x flex items-center pl-5 pt-4">
             <img alt="Midone - HTML Admin Template" class="w-6" src="{{asset('/administration/dist/images/logo.svg')}}">
-            <span class="hidden xl:block text-white text-lg ml-3"> Resource Africa</span>
+            <span class="hidden xl:block text-white text-lg ml-3"> Regional CBNRM</span>
         </a>
         <div class="side-nav__devider my-6"></div>
+
+
         <ul>
-            <li>
-                <a href="javascript:;" class="side-menu">
-                    <div class="side-menu__icon"><i data-lucide="home"></i></div>
-                    <div class="side-menu__title">
-                        Dashboard
-                        <div class="side-menu__sub-icon transform rotate-180"><i data-lucide="chevron-down"></i></div>
-                    </div>
-                </a>
-                <ul class="">
-                    <li>
-                        <a href="index.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Overview 1</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="side-menu-light-dashboard-overview-2.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Overview 2</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="side-menu-light-dashboard-overview-3.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Overview 3</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="side-menu-light-dashboard-overview-4.html" class="side-menu">
-                            <div class="side-menu__icon"><i data-lucide="activity"></i></div>
-                            <div class="side-menu__title"> Overview 4</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            <?php
+            $menu = [
+                [
+                    'label' => 'Dashboard',
+                    'icon' => 'home',  // Lucide icon for Dashboard
+                    'route' => '/dashboard',
+                    'submenu' => [
+                        ['label' => 'Dashboard Overview', 'route' => '/dashboard/overview'],
+                    ],
+                ],
+                [
+                    'label' => 'Admin Management',
+                    'icon' => 'settings',  // Lucide icon for Admin
+                    'submenu' => [
+                        ['label' => 'Manage Users', 'route' => '/admin/users'],
+                        ['label' => 'User Roles', 'route' => '/admin/roles'],
+                        ['label' => 'Permissions', 'route' => '/admin/permissions'],
+                        ['label' => 'General Settings', 'route' => '/admin/settings/general'],
+                        ['label' => 'User Interface Settings', 'route' => '/admin/settings/ui'],
+                    ],
+                ],
+                [
+                    'label' => 'Wildlife Management',
+                    'icon' => 'feather',  // Lucide icon for Wildlife
+                    'submenu' => [
+                        ['label' => 'Manage Species', 'route' => '/administration/wildlife/species'],
+                        ['label' => 'Automated Allocation', 'route' => '/wildlife/automated-allocation'],
+                        ['label' => 'Manual Allocation', 'route' => '/wildlife/manual-allocation'],
+                    ],
+                ],
+                [
+                    'label' => 'HWC',
+                    'icon' => 'alert-triangle',  // Lucide icon for Conflict
+                    'submenu' => [
+                        ['label' => 'Record HWC Incidents', 'route' => 'administration/hwc/record-incident'],
+                        ['label' => 'HWC Outcomes', 'route' => '/administration/hwc/outcomes'],
+                        ['label' => 'HWC Types', 'route' => '/administration/hwc/types'],
+                        ['label' => 'Territorial Marking', 'route' => '/conflict/marking'],
+                        ['label' => 'Security Measures', 'route' => '/conflict/security'],
+                        ['label' => 'Campaign Management', 'route' => '/conflict/campaigns'],
+                    ],
+                ],
+                [
+                    'label' => 'PAC',
+                    'icon' => 'shield',  // Lucide icon for Control
+                    'submenu' => [
+                        ['label' => 'Record PAC Incidents', 'route' => '/administration/pac/incidents'],
+                        ['label' => 'Mitigation Measures', 'route' => '/administration/pac/mitigation-measures'],
+                        ['label' => 'Control Measures', 'route' => '/administration/pac/control-measures'],
+                    ],
+                ],
+                [
+                    'label' => 'Illegal Activities',
+                    'icon' => 'thumbs-down',  // Lucide icon for Illegal Activities
+                    'submenu' => [
+                        ['label' => 'Incident Reports', 'route' => '/illegal/incidents'],
+                        ['label' => 'Investigations', 'route' => '/illegal/investigations'],
+                        ['label' => 'Case Management', 'route' => '/illegal/case-management'],
+                    ],
+                ],
+                [
+                    'label' => 'Marketing & Negotiation',
+                    'icon' => 'pie-chart',  // Lucide icon for Marketing
+                    'submenu' => [
+                        ['label' => 'Quotas', 'route' => '/marketing/rdcs'],
+                        ['label' => 'Manage Quotas', 'route' => '/marketing/quotas'],
+                        ['label' => 'Negotiate Trophies', 'route' => '/marketing/negotiate'],
+                        ['label' => 'Contracts', 'route' => '/marketing/contracts'],
+                        ['label' => 'Buyers', 'route' => '/marketing/buyers'],
+                        ['label' => 'Trophy Fee Agreements', 'route' => '/marketing/trophy-fees'],
+                    ],
+                ],
+                [
+                    'label' => 'Hunting Activities',
+                    'icon' => 'target',  // Lucide icon for Hunting
+                    'submenu' => [
+                        ['label' => 'Hunting Records', 'route' => '/hunting/records'],
+                        ['label' => 'Record Activities', 'route' => '/hunting/activities'],
+                        ['label' => 'Manage Income', 'route' => '/hunting/income'],
+                        ['label' => 'Revenue Sources', 'route' => '/hunting/revenue-sources'],
+                        ['label' => 'Trophy Fees', 'route' => '/hunting/trophy-fees'],
+                        ['label' => 'Ivory Sales', 'route' => '/hunting/ivory-sales'],
+                        ['label' => 'Meat Sales', 'route' => '/hunting/meat-sales'],
+                        ['label' => 'Film/Photography Fees', 'route' => '/hunting/film-fees'],
+                        ['label' => 'Hunting Concession Fees', 'route' => '/hunting/concession-fees'],
+                        ['label' => 'Analytics', 'route' => '/hunting/analytics'],
+                        ['label' => 'Activity Reports', 'route' => '/hunting/reports/activities'],
+                        ['label' => 'Revenue Analysis', 'route' => '/hunting/reports/revenue'],
+                    ],
+                ],
+                // ... Continuation for other menu items
+                [
+                    'label' => 'Community Projects',
+                    'icon' => 'users',  // Lucide icon for Community
+                    'submenu' => [
+                        ['label' => 'Project Management', 'route' => '/community/projects'],
+                        ['label' => 'Project Participants', 'route' => '/community/participants'],
+                        ['label' => 'Funding Allocation', 'route' => '/community/funding'],
+                        ['label' => 'Progress Monitoring', 'route' => '/community/progress'],
+                        ['label' => 'Project Reports', 'route' => '/community/reports'],
+                    ],
+                ],
+            ];
+
+
+            ?>
+            @foreach($menu as $menuItem)
+                <li>
+                    <a href="javascript:;" class="side-menu">
+                        <div class="side-menu__icon"><i data-lucide="{{ $menuItem['icon'] }}"></i></div>
+                        <div class="side-menu__title">
+                            {{ $menuItem['label'] }}
+                            @if(isset($menuItem['submenu']) && count($menuItem['submenu']) > 0)
+                                <div class="side-menu__sub-icon transform rotate-180"><i data-lucide="chevron-down"></i></div>
+                            @endif
+                        </div>
+                    </a>
+                    @if(isset($menuItem['submenu']) && count($menuItem['submenu']) > 0)
+                        <ul>
+                            @foreach($menuItem['submenu'] as $submenuItem)
+                                <li>
+                                    <a href="{{ url($submenuItem['route']) }}" class="side-menu">
+                                        <div class="side-menu__icon"></div>
+                                        <div class="side-menu__title">{{ $submenuItem['label'] }}</div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
+                @if(!$loop->last)
+                    <li class="side-nav__divider my-6"></li>
+                @endif
+            @endforeach
             <li class="side-nav__devider my-6"></li>
             <li>
                 <a href="javascript:;" class="side-menu side-menu--active">
@@ -770,6 +876,7 @@
             </li>
             <li class="side-nav__devider my-6"></li>
         </ul>
+
     </nav>
     <!-- END: Side Menu -->
 
@@ -808,8 +915,8 @@
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary text-white">
                         <li class="p-2">
-                            <div class="font-medium">Kevin Spacey</div>
-                            <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">Software Engineer</div>
+                            <div class="font-medium">Super Admin</div>
+                            <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">Leading Digital</div>
                         </li>
                         <li>
                             <hr class="dropdown-divider border-white/[0.08]">
@@ -851,7 +958,24 @@
     </div>
 </div>
 <script src="{{ asset('administration/dist/js/app.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+{{--<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>--}}
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    });
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+
 @stack('scripts')
 </body>
 </html>

@@ -39,6 +39,11 @@ class Organization extends Model
         return $this->belongsToMany(Field::class, 'field_organization_values', 'organization_id', 'field_id')->withPivot('value');
     }
 
+    public function humaWildLifeConflicts()
+    {
+        return $this->hasMany(HumanWildlifeConflict::class);
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
