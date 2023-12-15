@@ -2,10 +2,6 @@
 
 @section('content')
     <!-- BEGIN: Content -->
-  {{--   <link href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" rel="stylesheet">
- --}}
-
-
     <div class="content">
         <div class="grid grid-cols-12 gap-6">
 

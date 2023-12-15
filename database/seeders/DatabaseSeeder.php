@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\HWCTrigger;
+use App\Models\MitigationMeasure;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            SpeciesSeeder::class,
+            HWCOutcomeSeeder::class,
+            HWCTypeSeeder::class,
+            ControlMeasuresSeeder::class,
+            //MitigationMeasure::class,
+        ]);
     }
 }

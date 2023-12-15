@@ -1,8 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ControlMeasureController;
+use App\Http\Controllers\HumanWildlifeConflictController;
+use App\Http\Controllers\HWCOutcomeController;
+use App\Http\Controllers\HWCTypeController;
+use App\Http\Controllers\MitigationMeasureController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpeciesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +33,20 @@ Route::get('/admin/pickers', [AdminController::class, 'pickers']);
 Route::get('/admin/profile', [AdminController::class, 'profile']);
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('/administration/wildlife/species', SpeciesController::class);
+Route::resource('/administration/hwc/outcomes', HWCOutcomeController::class);
+Route::resource('/administration/hwc/types', HWCTypeController::class);
+Route::resource('/administration/pac/mitigation-measures', MitigationMeasureController::class);
+Route::resource('/administration/pac/control-measures', ControlMeasureController::class);
+
+Route::get('/administration/hwc/record-incident', [HumanWildlifeConflictController::class,'index']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,7 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/administration/organizations/accounts', [OrganizationController::class, 'userAccounts'])->name('organisations.accounts');
     Route::post('/administration/organizations/parameters', [OrganizationController::class, 'saveOrgType'])->name('organisations.create');
 
-//admin.parameters.store route
+
+    //admin.parameters.store route
     Route::post('/administration/parameters', [OrganizationController::class, 'storeFieldType'])->name('admin.parameters.store');
     Route::post('/administration/organisation/roles', [OrganizationController::class, 'storeOrganisationRole'])->name('admin.roles.store');
 });
