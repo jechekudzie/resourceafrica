@@ -362,7 +362,7 @@
                 type: "POST",
                 data: $(this).serialize(),
                 success: function (response) {
-                    // handle response
+                    fetchOrganizationRoles(id, type);
                 }
             });
         });
