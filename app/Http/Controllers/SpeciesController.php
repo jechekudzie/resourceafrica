@@ -13,8 +13,7 @@ class SpeciesController extends Controller
 
     public function index()
     {
-        $species = Species::all();
-        return view('administration.species.index', compact('species'));
+        return view('administration.species.index');
     }
 
     /**

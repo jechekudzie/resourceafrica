@@ -199,7 +199,99 @@ class ApiController extends Controller
             return response()->json([]);
         } else {
             $data = DB::table('roles')->where('organization_id', $id)->get();
+            //add organisation name to the data collection as well
+            $organisation = Organization::findOrFail($id);
+            $data->map(function ($item) use ($organisation) {
+                $item->organization_name = $organisation->name;
+            });
             return response()->json($data);
         }
+    }
+
+    public function fetchFieldPreview($id)
+    {
+        if ($id == 0) {
+            return response()->json([
+                "type" => "text",
+                "name" => "Name",
+                "label" => "Enter the Name of this Organization here",
+            ]);
+        } else {
+            $field = DB::table('fields')->where('id', $id)->first();
+            return response()->json($field);
+        }
+    }
+
+    public function fetchRolePermissions($id)
+    {
+        //get the role and all permissions and return them
+        $role = Role::findOrFail($id);
+        $permissions = $role->permissions;
+
+        $moduleInfo = [
+            ["module" => 'Dashboard', "prefix" => 'dashboard'],
+            ["module" => 'Wildlife', "prefix" => 'wildlife'],
+            ["module" => 'HWC (Human-Wildlife Conflict)', "prefix" => 'hwc'],
+            ["module" => 'PAC (Problematic Animal Control)', "prefix" => 'pac'],
+            ["module" => 'Illegal Activities', "prefix" => 'illegal_activities'],
+            ["module" => 'Marketing', "prefix" => 'marketing'],
+            ["module" => 'Hunting Activities', "prefix" => 'hunting_activities'],
+            ["module" => 'Projects', "prefix" => 'projects'],
+            ["module" => 'Organizations', "prefix" => 'organizations'],
+        ];
+
+        //permissions suffixes
+        $suffixes = ['create', 'read', 'update', 'delete'];
+
+        //create list of all permissions by combining prefix and suffix
+        foreach ($moduleInfo as $module) {
+            foreach ($suffixes as $suffix) {
+                $permissions[] = $module['prefix'] . '.' . $suffix;
+            }
+        }
+
+        $data = [];
+        //foreach module info add permissions array with corresponding key data
+        foreach ($moduleInfo as $module) {
+            $permissionsData = [];
+            foreach ($suffixes as $suffix) {
+                $permissionsData[$suffix] = $role->hasPermissionTo($module['prefix'] . '.' . $suffix);
+            }
+            $module['permissions'] = $permissionsData;
+            $data[] = $module;
+        }
+        return response()->json($data);
+    }
+
+    public function updateRolePermissions(Request $request)
+    {
+        $role = Role::findOrFail($request->role_id);
+        $request->checked ? $role->givePermissionTo($request->permission) : $role->revokePermissionTo($request->permission);
+        return response()->json($request->permissions);
+    }
+
+    public function fetchRole($id)
+    {
+        $role = Role::findOrFail($id);
+        //fetch organization data as well
+        $role->organization = Organization::findOrFail($role->organization_id);
+        return response()->json($role);
+    }
+
+    public function updateRoleName(Request $request)
+    {
+        $role = Role::findOrFail($request->role_id);
+        $role->name = $request->name;
+        $role->save();
+        return response()->json($role);
+    }
+
+    public function deleteRole(Request $request)
+    {
+        $role = Role::findOrFail($request->role_id);
+        $role->users()->detach();
+        $role->permissions()->detach();
+        $role->delete();
+        return response()->json($role);
     }
 }

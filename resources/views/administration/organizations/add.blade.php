@@ -144,6 +144,92 @@
         </div>
     </div>
 
+    <!-- BEGIN: Super Large Slide Over Content -->
+    <div id="permissions_slideover" class="modal modal-slide-over" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header p-5">
+                    <h2 class="font-medium text-base mr-auto">Manage Permissions for [ <span id="orgname"></span> >
+                        <span
+                            id="orgrole"></span> ]</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <thead class="table-dark">
+                            <tr>
+                                <th class="whitespace-nowrap">Module</th>
+                                <th class="whitespace-nowrap">Create</th>
+                                <th class="whitespace-nowrap">Read</th>
+                                <th class="whitespace-nowrap">Update</th>
+                                <th class="whitespace-nowrap">Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody id="pbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editrolemodal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                    <h2 class="font-medium text-base mr-auto">
+                        Update Role Name
+                    </h2>
+                </div>
+                <div id="vertical-form" class="p-5">
+                    <form method="post" action="{{ url('/api/administration/update/roles') }}" id="editroleform">
+                        @csrf
+                        <div class="preview">
+                            <div>
+                                <label for="editrolename" class="form-label">Role Name</label>
+                                <input id="editrolename" name="name" type="text" class="form-control"
+                                       placeholder="Role Name">
+                            </div>
+                            <input type="hidden" name="role_id" id="editroleid"/>
+                            <button class="btn btn-primary mt-5">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN: Modal Content -->
+    <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <form method="post" action="{{ url('/api/administration/roles/delete') }}" id="deleteRoleForm">
+                        @csrf
+                        <input type="hidden" name="role_id" id="delete_role_id"/>
+                        <div class="p-5 text-center"><i data-lucide="x-circle"
+                                                        class="w-16 h-16 text-danger mx-auto mt-3"></i>
+                            <div class="text-3xl mt-5">Are you sure?</div>
+                            <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This
+                                process
+                                cascades to all child records and
+                                cannot be undone.
+                            </div>
+                        </div>
+                        <div class="px-5 pb-8 text-center">
+                            <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-danger w-24">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END: Modal Content -->
+
 @endsection
 
 @push('scripts')
@@ -233,10 +319,10 @@
                                 });
                                 //put a hr and move to next row
                                 $('#example-tab-5').append('<hr class="col-span-12 my-5">');
-                                $('#example-tab-5').append(`<div style="text-align: end" class="col-span-12 float-right">
-                                    <button id="saveButton" class="btn btn-primary">Save Record</button>
-                                </div>`);
                             });
+                            $('#example-tab-5').append(`<div style="text-align: end" class="col-span-12 float-right">
+                              <button id="saveButton" class="btn btn-primary">Save Record</button>
+                            </div>`);
                             fetchOrganizationRoles(id, type);
                             hasFetched = true;
                         }
@@ -326,7 +412,10 @@
                         <td>${role.name}</td>
                         <td>
                             <div class="flex">
-                                <a class="warning flex items-center mr-3" href="javascript:;">
+                                <a class="warning flex items-center mr-3 configpermissions" href="javascript:;"
+                                   data-role="${role.id}"
+                                    data-orgname="${role.organization_name}"
+                                   data-rolename="${role.name}">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="key" data-lucide="key" class="lucide lucide-key block mx-auto"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
                                     &nbsp;Configure
                                 </a>
@@ -334,11 +423,11 @@
                         </td>
                         <td>
                             <div class="flex">
-                                            <a class="save flex items-center mr-3" href="javascript:;">
+                                            <a class="save flex items-center mr-3 editrole" data-role="${role.id}" href="javascript:;" >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="edit" data-lucide="edit" class="lucide lucide-edit block mx-auto"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                                 Edit
                                             </a>
-                                            <a class="delete flex items-center text-danger" href="javascript:;">
+                                            <a class="delete flex items-center text-danger delete-role" href="javascript:;" data-role="${role.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="trash-2" data-lucide="trash-2" class="lucide lucide-trash-2 w-4 h-4 mr-1">
                                                     <polyline points="3 6 5 6 21 6"></polyline>
                                                     <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
@@ -362,9 +451,126 @@
                 type: "POST",
                 data: $(this).serialize(),
                 success: function (response) {
+                    //reset form
+                    $('#addRoleForm').trigger("reset");
                     fetchOrganizationRoles(id, type);
                 }
             });
         });
+
+        //configpermissions onclick
+        $(document).on('click', '.configpermissions', function () {
+            const mySlideOver = tailwind.Modal.getOrCreateInstance(document.querySelector("#permissions_slideover"));
+            $('#orgname').text($(this).data('orgname'));
+            $('#orgrole').text($(this).data('rolename'));
+            var roleid = $(this).data('role');
+            mySlideOver.show();
+            $.ajax({
+                url: '/api/administration/permissions/' + roleid,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#permissions_slideover').find('tbody').empty();
+                    $.each(data, function (index, permission) {
+                        $('#permissions_slideover').find('tbody').append(`<tr>
+                        <td>${permission.module}</td>
+                        <td><input data-role="${roleid}" data-module="${permission.prefix}" data-permission="create" class="permission-checkbox" type="checkbox" ${permission.permissions.create ? 'checked' : ''}></td>
+                        <td><input data-role="${roleid}" data-module="${permission.prefix}" data-permission="read" class="permission-checkbox" type="checkbox" ${permission.permissions.read ? 'checked' : ''}></td>
+                        <td><input data-role="${roleid}" data-module="${permission.prefix}" data-permission="update" class="permission-checkbox" type="checkbox" ${permission.permissions.update ? 'checked' : ''}></td>
+                        <td><input data-role="${roleid}" data-module="${permission.prefix}" data-permission="delete" class="permission-checkbox" type="checkbox" ${permission.permissions.delete ? 'checked' : ''}></td>class="permission-checkbox" type="checkbox" ${permission.permissions.delete ? 'checked' : ''} ></td>
+                    </tr>`);
+                    });
+                }
+            });
+        });
+
+        //update permission on checkbox click function
+        $(document).on('click', '.permission-checkbox', function () {
+            var roleid = $(this).data('role');
+            var module = $(this).data('module');
+            var permission = $(this).data('permission');
+            var checked = $(this).is(':checked');
+            $.ajax({
+                url: '/api/administration/permissions/update',
+                type: 'POST',
+                data: {
+                    'checked': checked,
+                    'role_id': roleid,
+                    'permission': module + '.' + permission,
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        //editrole on click edit the role in modal
+        $(document).on('click', '.editrole', function () {
+            var roleid = $(this).data('role');
+            $.ajax({
+                url: '/api/administration/roles/' + roleid,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const el = document.querySelector("#editrolemodal");
+                    const modal = tailwind.Modal.getOrCreateInstance(el);
+                    //put role id in the input element
+                    $('#editroleid').val(data.id);
+                    //put role name in the input element
+                    $('#editrolename').val(data.name);
+                    modal.show();
+                }
+            });
+        });
+
+        //editroleform on submit
+        $("#editroleform").on("submit", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "/api/administration/update/roles",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    //reset form
+                    $('#editroleform').trigger("reset");
+                    //close modal
+                    const el = document.querySelector("#editrolemodal");
+                    const modal = tailwind.Modal.getOrCreateInstance(el);
+                    modal.hide();
+                    //fetch roles
+                    fetchOrganizationRoles(id, type);
+                }
+            });
+        });
+
+        //delete role on click
+        $(document).on('click', '.delete-role', function () {
+            var roleid = $(this).data('role');
+            const el = document.querySelector("#delete-modal-preview");
+            const modal = tailwind.Modal.getOrCreateInstance(el);
+            $('#delete_role_id').val(roleid);
+            modal.show();
+        });
+
+        //deleteRoleForm on submit
+        $("#deleteRoleForm").on("submit", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "/api/administration/roles/delete",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    //reset form
+                    $('#deleteRoleForm').trigger("reset");
+                    //close modal
+                    const el = document.querySelector("#delete-modal-preview");
+                    const modal = tailwind.Modal.getOrCreateInstance(el);
+                    modal.hide();
+                    //fetch roles
+                    fetchOrganizationRoles(id, type);
+                }
+            });
+        });
+
     </script>
 @endpush

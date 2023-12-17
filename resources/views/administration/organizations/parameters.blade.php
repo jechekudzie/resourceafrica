@@ -90,7 +90,7 @@
     <div id="basic-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="{{ route('organisations.create') }}">
+                <form method="post" action="{{ route('organizations.create') }}">
                     @csrf
                     <div class="intro-y col-span-12 lg:col-span-6">
                         <!-- BEGIN: Form Layout -->
@@ -117,6 +117,44 @@
             </div>
         </div>
     </div> <!-- END: Modal Content -->
+
+    <!-- BEGIN: Modal Content -->
+    <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="p-5 text-center"><i data-lucide="x-circle"
+                                                    class="w-16 h-16 text-danger mx-auto mt-3"></i>
+                        <div class="text-3xl mt-5">Are you sure?</div>
+                        <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This process
+                            cascades to all child records and
+                            cannot be undone.
+                        </div>
+                    </div>
+                    <div class="px-5 pb-8 text-center">
+                        <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger w-24">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END: Modal Content -->
+
+    <div id="programmatically-modal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- BEGIN: Modal Header -->
+                <div class="modal-header">
+                    <h2 class="font-medium text-base mr-auto">Element Preview</h2>
+                </div> <!-- END: Modal Header -->
+                <div class="modal-body p-10" id="fieldPreviewPane">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -193,14 +231,13 @@
                     $.each(groupItems, function (index, field) {
                         //loop through fields array and isolate grouped elements
                         $('#fields-table tbody').append(
-                            `
-                               <tr>
+                            `<tr>
                                     <td>${count + 1}</td>
                                     <td>${field.name}</td>
                                     <td>${field.type}</td>
                                     <td>
                                         <div class="flex">
-                                            <a class="edit flex items-center mr-3" href="javascript:;">
+                                            <a data-field="${field.id}" class="edit flex items-center mr-3 previewfield" href="javascript:;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round" icon-name="eye"
@@ -213,7 +250,7 @@
                                     </td>
                                     <td>
                                         <div class="flex">
-                                            <a class="save flex items-center mr-3" href="javascript:;">
+                                            <a data-field="${field.id}" class="save flex items-center mr-3" href="javascript:;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" icon-name="settings" data-lucide="settings"
@@ -233,7 +270,7 @@
                                                 </svg>
                                                 Edit
                                             </a>
-                                            <a class="delete flex items-center text-danger" href="javascript:;">
+                                            <a data-field="${field.id}" class="delete flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-modal-preview">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                      stroke-linecap="round" stroke-linejoin="round" icon-name="trash-2"
@@ -255,6 +292,45 @@
                     });
                 });
             }
+
+            //preview field on previewfield button click
+            $(document).on('click', '.previewfield', function () {
+                let id = $(this).data('field');
+                $.ajax({
+                    url: '/api/administration/preview/fields/' + id,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(response.type)
+                        let input = '';
+                        if (response.type === 'text') {
+                            input = `<div class="w-full"><label>${response.name}</label><input type="text" class="form-control" placeholder="${response.label}"></div>`;
+                        } else if (response.type === 'number') {
+                            input = `<div class="w-full"><label>${response.name}</label><input type="number" class="form-control" placeholder="${response.label}"></div>`;
+                        } else if (response.type === 'date') {
+                            input = `<input type="date" class="form-control" value="${response.value}">`;
+                        } else if (response.type === 'select') {
+                            input = `<select class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="1">Option 1</option>
+                                        <option value="2">Option 2</option>
+                                    </select>`;
+                        } else if (response.type === 'textarea') {
+                            input = `<div class="w-full"><label>${response.name}</label><textarea class="form-control" placeholder="${response.label}"></textarea></div>`;
+                        } else if (response.type === 'checkbox') {
+                            input = `<input type="checkbox" class="form-control" value="${response.value}">`;
+                        } else if (response.type === 'radio') {
+                            input = `<input type="radio" class="form-control" value="${response.value}">`;
+                        } else if (response.type === 'file') {
+                            input = `<div class="w-full"><label>${response.name}</label><input type="file" class="form-control"></div>`;
+                        }
+                        $('#fieldPreviewPane').html(input);
+                        const el = document.querySelector("#programmatically-modal");
+                        const modal = tailwind.Modal.getOrCreateInstance(el);
+                        modal.show();
+                    }
+                });
+            });
         });
     </script>
+
 @endpush
