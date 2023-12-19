@@ -4,12 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\OrganizationController;
+use App\Mail\WelcomeEmail;
+use App\Models\Field;
 use App\Models\Organization;
 use App\Models\OrganizationType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class ApiController extends Controller
@@ -76,7 +79,22 @@ class ApiController extends Controller
 
         //now save the fields
         foreach ($orgtype->fields as $field) {
-            $value = $data['input' . $field->id];
+            //check field type for special circumstances
+            if ($field->type == 'checkbox') {
+                $value = implode(',', $data['input' . $field->id]);
+            } elseif ($field->type == 'file') {
+
+                $key = 'input' . $field->id;
+
+                dd($request->input($key));
+
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $value = 'public/organisations/uploads/' . $fileName;
+                $file->move(public_path('organisations/uploads'), $fileName);
+
+            } else {
+                $value = $data['input' . $field->id];
+            }
             $organization->fields()->attach($field->id, ['value' => $value]);
         }
 
@@ -208,6 +226,22 @@ class ApiController extends Controller
         }
     }
 
+    public function fetchOrganizationUsers($id, $type)
+    {
+        if ($type == 'ot') {
+            return response()->json([]);
+        } else {
+            $data = DB::table('organization_users')->where('organization_id', $id)->get();
+            $organisation = Organization::findOrFail($id);
+            $data->map(function ($item) use ($organisation) {
+                $item->organization = $organisation;
+                $item->role = Role::findOrFail($item->role_id);
+                $item->user = User::findOrFail($item->user_id);
+            });
+            return response()->json($data);
+        }
+    }
+
     public function fetchFieldPreview($id)
     {
         if ($id == 0) {
@@ -293,5 +327,63 @@ class ApiController extends Controller
         $role->permissions()->detach();
         $role->delete();
         return response()->json($role);
+    }
+
+    public function deleteField(Request $request)
+    {
+        $field = DB::table('fields')->where('id', $request->id)->first();
+        DB::table('field_organization_types')->where('field_id', $request->id)->delete();
+        DB::table('field_organization_values')->where('field_id', $request->id)->delete();
+        $data = OrganizationController::loadOrganisationTypeFields($request->organization_id);
+        return response()->json($data);
+    }
+
+    public function updateField(Request $request)
+    {
+        $field = Field::findOrFail($request->id);
+        $field->name = $request->name;
+        $field->label = $request->label;
+        $field->type = $request->type;
+        $field->save();
+        $data = OrganizationController::loadOrganisationTypeFields($request->organization_id);
+        return response()->json($data);
+    }
+
+    public function updateFieldOptions(Request $request)
+    {
+        $field = Field::findOrFail($request->field_id);
+        $field->value = $request->value;
+        $field->save();
+        $data = OrganizationController::loadOrganisationTypeFields($request->organization_id);
+        return response()->json($data);
+    }
+
+    public function registerNewUser(Request $request)
+    {
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make('password'),
+        ]);
+        $user->save();
+
+        //fet the role and all permissions and return them
+        $role = Role::findOrFail($request->role_id);
+
+        //assign user to role
+        $user->roles()->attach($role, ['organization_id' => $request->organization_id]);
+
+        //db insert into organisation_users table
+        DB::table('organization_users')->insert([
+            'user_id' => $user->id,
+            'organization_id' => $request->organization_id,
+            'role_id' => $role->id,
+        ]);
+
+        //$email = $request->email;
+
+        //Mail::to($email)->send(new WelcomeEmail());
+
+        return response()->json($user);
     }
 }

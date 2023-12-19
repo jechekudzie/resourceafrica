@@ -80,15 +80,15 @@
                             <div id="example-tab-5" class="tab-pane grid grid-cols-12 gap-2 leading-relaxed active"
                                  role="tabpanel"
                                  aria-labelledby="example-5-tab">
+
                             </div>
                             <div id="example-tab-6" class="tab-pane tab-pane grid grid-cols-12 gap-2"
                                  role="tabpanel"
                                  aria-labelledby="example-6-tab">
-
-
                                 <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4">
                                     <div class="box p-5">
-                                        <form id="addRoleForm" method="post" action="{{ route('admin.roles.store') }}">
+                                        <form id="addRoleForm" method="post" action="{{ route('admin.roles.store') }}"
+                                              enctype="multipart/form-data">
                                             @csrf
                                             <div class="preview">
                                                 <div>
@@ -122,9 +122,60 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="example-tab-7" class="tab-pane leading-relaxed active" role="tabpanel"
+                            <div id="example-tab-7" class="tab-pane tab-pane grid grid-cols-12 gap-2" role="tabpanel"
                                  aria-labelledby="example-7-tab">
 
+
+                                <div class="intro-y col-span-12 md:col-span-6 lg:col-span-3">
+                                    <div class="box p-5">
+                                        <form enctype="multipart/form-data" method="post" id="addNewUserForm"
+                                              action="{{ url('/api/administration/register-user') }}">
+                                            @csrf
+                                            <div class="preview">
+                                                <div>
+                                                    <label for="vertical-form-1" class="form-label">Add user's
+                                                        name</label>
+                                                    <input id="vertical-form-1" name="name" type="text"
+                                                           class="form-control" required
+                                                           placeholder="Enter user's name">
+                                                </div>
+                                                <div>
+                                                    <label for="vertical-form-1" class="form-label">Add user's
+                                                        Email</label>
+                                                    <input id="vertical-form-1" name="email" type="text"
+                                                           class="form-control" required
+                                                           placeholder="Enter their email address">
+                                                </div>
+                                                <div>
+                                                    <label for="org-role-id" class="form-label">Set User's
+                                                        Role</label>
+                                                    <select id="org-role-id" class="form-select"
+                                                            name="role_id"></select>
+                                                </div>
+                                                <input type="hidden" id="user_organization_id" name="organization_id">
+                                                <button class="btn btn-primary mt-5" type="submit">Add New User</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="intro-y col-span-12 md:col-span-6 lg:col-span-9">
+                                    <div class="box">
+                                        <table class="table table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th class="whitespace-nowrap">#</th>
+                                                <th class="whitespace-nowrap">User</th>
+                                                <th class="whitespace-nowrap">Email</th>
+                                                <th class="whitespace-nowrap">Role</th>
+                                                <th class="whitespace-nowrap">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="userAccountsTable">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
                             </div>
                             <div id="example-tab-8" class="tab-pane leading-relaxed" role="tabpanel"
@@ -283,47 +334,74 @@
                                             $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="text" class="form-control" name="input' + field.id + '" value="' + value + '" placeholder="Enter ' + field.name + '"></div>');
                                             break;
                                         case 'number':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="number" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="number" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '" value="' + field.pivot.value + '"></div>');
                                             break;
                                         case 'textarea':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><textarea class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></textarea></div>');
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><textarea style="height: 38px" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '">' + field.pivot.value + '</textarea></div>');
                                             break;
                                         case 'select':
-                                            var select = $('<select/>', {
-                                                id: '',
-                                                class: 'form-control col-span-4',
-                                                name: 'input' + field.id,
+                                            //set up select from values
+                                            let selectOptions = field.value.split(',');
+                                            let select = '<select class="form-select" name="input' + field.id + '">';
+                                            var counter = 0;
+                                            $.each(selectOptions, function (index, option) {
+                                                select += `<option value="${option.replace(/\s/g, '')}">${option.replace(/\s/g, '')}</option>`
+                                                counter++;
                                             });
-                                            select.append('<option selected>Select ' + field.name + '</option>');
-                                            $.each(field.options, function (key, value) {
-                                                select.append('<option value="' + value + '">' + value + '</option>');
-                                            });
-                                            $('#example-tab-5').append(select);
+                                            select += '</select>';
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label>' + select + '</div>');
                                             break;
                                         case 'checkbox':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="checkbox" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            //set up checkboxes from values
+                                            let options = field.value.split(',');
+                                            var counter = 0;
+                                            var markup = '<div class="col-span-4"><label>' + field.name + '</label><div class="flex flex-col sm:flex-row mt-2">';
+                                            $.each(options, function (index, option) {
+                                                markup += `<div class="form-check mr-2">
+                                                    <input id="vertical-form-${field.id}-${counter}"
+                                                         class="form-check-input" name="input` + field.id + `[]" type="checkbox" value="${option.replace(/\s/g, '')}">
+                                                    <label class="form-check-label" for="vertical-form-${field.id}-${counter}">${option.replace(/\s/g, '')}</label>
+                                                </div>`
+                                                counter++;
+                                            });
+                                            markup += '</div></div>';
+                                            $('#example-tab-5').append(markup);
                                             break;
                                         case 'radio':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="radio" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            //set up radio buttons from values
+                                            let radioOptions = field.value.split(',');
+                                            var counter = 0;
+                                            var markup = '<div class="col-span-4"><label>' + field.name + '</label><div class="flex flex-col sm:flex-row mt-2">';
+                                            $.each(radioOptions, function (index, option) {
+                                                var checked = field.pivot.value === option.replace(/\s/g, '')
+                                                markup += `<div class="form-check mr-2">
+                                                    <input id="vertical-form-${field.id}-${counter}" class="form-check-input" name="input` + field.id + `" checked="${checked}" type="radio" value="${option.replace(/\s/g, '')}">
+                                                    <label class="form-check-label" for="vertical-form-${field.id}-${counter}">${option.replace(/\s/g, '')}</label>
+                                                </div>`
+                                                counter++;
+                                            });
+                                            markup += '</div></div>';
+                                            $('#example-tab-5').append(markup);
                                             break;
                                         case 'date':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '" value="' + field.pivot.value + '"></div>');
                                             break;
                                         case 'time':
                                             $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="time" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
                                             break;
-                                        case 'date':
-                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="date" class="form-control" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
+                                        case 'file':
+                                            $('#example-tab-5').append('<div class="col-span-4"><label>' + field.name + '</label><input type="file" class="form-control mt-2" name="input' + field.id + '" placeholder="Enter ' + field.name + '"></div>');
                                             break;
                                     }
                                 });
-                                //put a hr and move to next row
-                                $('#example-tab-5').append('<hr class="col-span-12 my-5">');
                             });
+                            //put a hr and move to next row
+                            $('#example-tab-5').append('<hr class="col-span-12 my-5">');
                             $('#example-tab-5').append(`<div style="text-align: end" class="col-span-12 float-right">
                               <button id="saveButton" class="btn btn-primary">Save Record</button>
                             </div>`);
                             fetchOrganizationRoles(id, type);
+                            fetchOrganizationUsers(id, type);
                             hasFetched = true;
                         }
                     });
@@ -346,6 +424,7 @@
                 method: 'POST',
                 enctype: 'multipart/form-data'
             });
+
             $.each($('#example-tab-5').find('input, select, textarea'), function (index, field) {
                 var input = $('<input/>', {
                     type: 'hidden',
@@ -390,7 +469,6 @@
                 dataType: 'json',
                 data: form.serialize(),
                 success: function (data) {
-                    console.log(data.parent);
                     $('#evts').jstree(true).refresh();
                     setTimeout(function () {
                         $('#evts').jstree('open_node', data.parent);
@@ -406,6 +484,9 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#rolesTable').empty();
+                    $('#org-role-id').empty();
+                    $('#user_organization_id').val(id);
+
                     $.each(data, function (index, role) {
                         $('#rolesTable').append(`<tr>
                         <td>${index + 1}</td>
@@ -439,10 +520,34 @@
                                         </div>
                         </td>
                     </tr>`);
+                        $('#org-role-id').append(`<option value="${role.id}">${role.name}</option>`);
                     });
                 }
             });
         }
+
+        function fetchOrganizationUsers(id, type) {
+            $.ajax({
+                url: '/api/administration/users/' + id + '/' + type,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#user_organization_id').val(id);
+                    $('#userAccountsTable').empty();
+                    $.each(data, function (index, user) {
+                        $('#userAccountsTable').append(`<tr>
+                        <td>${index + 1}</td>
+                        <td>${user.user.name}</td>
+                        <td>${user.user.email}</td>
+                        <td>${user.role.name}</td>
+                        <td>
+                            <a href="#">Revoke</a>
+                        </td>`);
+                    });
+                }
+            });
+        }
+
 
         $("#addRoleForm").on("submit", function (event) {
             event.preventDefault();
@@ -568,6 +673,22 @@
                     modal.hide();
                     //fetch roles
                     fetchOrganizationRoles(id, type);
+                }
+            });
+        });
+
+        //addNewUserForm on submit
+        $("#addNewUserForm").on("submit", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "/api/administration/register-user",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    //reset form
+                    $('#addNewUserForm').trigger("reset");
+                    //fetch users into the users table. need a function for that
+                    fetchOrganizationUsers(id, type);
                 }
             });
         });

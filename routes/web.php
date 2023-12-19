@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommunityProjectsController;
 use App\Http\Controllers\ControlMeasureController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HumanWildlifeConflictController;
 use App\Http\Controllers\HuntingController;
 use App\Http\Controllers\HWCOutcomeController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\MitigationMeasureController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeciesController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,10 +40,21 @@ Route::get('/admin/pickers', [AdminController::class, 'pickers']);
 Route::get('/admin/profile', [AdminController::class, 'profile']);
 Route::get('/administration/dashboard', [AdminController::class, 'dashboard'])->name('administration.dashboard');
 
-
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard.overview');
+    //get the logged in user's organisations
+    $orgs = DB::table('organization_users')->where('user_id', Auth::id())->get();
+    $data = [];
+
+    //put the organisation, user and role into the collection
+    foreach ($orgs as $org) {
+        $data[] = [
+            'org' => DB::table('organizations')->where('id', $org->organization_id)->first(),
+            'user' => DB::table('users')->where('id', $org->user_id)->first(),
+            'role' => DB::table('roles')->where('id', $org->role_id)->first()
+        ];
+    }
+    return view('dashboard')->with('data', $data);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/administration/hwc/outcomes', HWCOutcomeController::class);
 Route::resource('/administration/hwc/types', HWCTypeController::class);
@@ -116,8 +130,17 @@ Route::middleware('auth')->group(function () {
     //admin.parameters.store route
     Route::post('/administration/parameters', [OrganizationController::class, 'storeFieldType'])->name('admin.parameters.store');
     Route::post('/administration/organisation/roles', [OrganizationController::class, 'storeOrganisationRole'])->name('admin.roles.store');
+
+    //organisation routes
+    Route::get('/{organization}/dashboard', [DashboardController::class, 'dashboardHome'])->name('dashboard.home');
+
 });
 
 require __DIR__ . '/auth.php';
 
-
+//starting the dashboard routes here
+Route::get('/{organization}/dashboard', [DashboardController::class, 'dashboardHome'])->name('dashboard.home');
+Route::get('/{organization}/wildlife-species', [DashboardController::class, 'wildlifeSpeciesHome'])->name('wildlife.home');
+Route::get('/{organization}/human-wildlife-conflict', [DashboardController::class, 'humanWildlifeConflictHome'])->name('hwc.home');
+Route::get('/{organization}/human-wildlife-conflict/create', [DashboardController::class, 'createHumanWildlifeConflict'])->name('hwc.create');
+Route::get('/{organization}/problematic-animal-control', [DashboardController::class, 'problematicAnimalControlHome'])->name('pac.home');
