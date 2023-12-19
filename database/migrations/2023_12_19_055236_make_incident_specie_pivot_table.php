@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('h_w_c_outcomes', function (Blueprint $table) {
+        Schema::create('incident_specie', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->integer('h_w_c_type_id')->nullable();
-            $table->string('slug')->nullable();
+            $table->integer('incident_id');
+            $table->integer('specie_id');
+            $table->string('gender')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('h_w_c_outcomes');
+        Schema::dropIfExists('incident_specie');
     }
 };

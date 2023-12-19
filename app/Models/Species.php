@@ -10,6 +10,7 @@ use Spatie\Sluggable\SlugOptions;
 class Species extends Model
 {
     use HasFactory, HasSlug;
+
     protected $guarded = [];
 
     public function getSlugOptions(): SlugOptions
@@ -18,10 +19,16 @@ class Species extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
     public function getRouteKeyName()
     {
         return 'slug';
     }
 
+    //incidents
+    public function incidents()
+    {
+        return $this->belongsToMany(Incident::class);
+    }
 
 }

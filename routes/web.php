@@ -144,3 +144,6 @@ Route::get('/{organization}/wildlife-species', [DashboardController::class, 'wil
 Route::get('/{organization}/human-wildlife-conflict', [DashboardController::class, 'humanWildlifeConflictHome'])->name('hwc.home');
 Route::get('/{organization}/human-wildlife-conflict/create', [DashboardController::class, 'createHumanWildlifeConflict'])->name('hwc.create');
 Route::get('/{organization}/problematic-animal-control', [DashboardController::class, 'problematicAnimalControlHome'])->name('pac.home');
+
+//post routes to save stuff
+Route::post('/human-wildlife-conflict/create', [DashboardController::class, 'storeHumanWildlifeConflict'])->name('hwc.incidents.store');

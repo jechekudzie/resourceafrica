@@ -27,4 +27,10 @@ class Incident extends Model
     {
         return $this->hasMany(Update::class);
     }
+
+    //species
+    public function species()
+    {
+        return $this->belongsToMany(Species::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Incident;
 use App\Models\Organization;
 use App\Models\Species;
 use Illuminate\Http\Request;
@@ -135,4 +136,37 @@ class DashboardController extends Controller
     {
         return view('modules.hwc.create')->with($this->loadPermissions($organization));
     }
+
+    public function storeHumanWildlifeConflictl(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'image' => 'required',
+            'species_id' => 'required',
+            'status_id' => 'required',
+        ]);
+
+        $incident = new Incident([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'location' => $request->get('location'),
+            'date' => $request->get('date'),
+            'time' => $request->get('time'),
+            'image' => $request->get('image'),
+            'user_id' => Auth::user()->id,
+            'organization_id' => $request->get('organization_id'),
+            'species_id' => $request->get('species_id'),
+            'status_id' => $request->get('status_id'),
+        ]);
+
+        $incident->save();
+
+        return back()->with('success', 'Incident created successfully.');
+    }
+
+
 }
