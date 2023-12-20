@@ -91,4 +91,17 @@ class SpeciesController extends Controller
             ->with('success', 'Species deleted successfully.');
     }
 
+    public function automatedAllocation()
+    {
+        $species = Species::all();
+        $organizations = Organization::all();
+        return view('administration.species.automated-allocation', compact('species', 'organizations'));
+    }
+
+    public function manualAllocation()
+    {
+        $species = Species::all();
+        $organizations = Organization::all();
+        return view('administration.species.manual-allocation', compact('species', 'organizations'));
+    }
 }

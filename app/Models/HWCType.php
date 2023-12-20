@@ -10,6 +10,7 @@ use Spatie\Sluggable\SlugOptions;
 class HWCType extends Model
 {
     use HasFactory, HasSlug;
+
     protected $guarded = [];
 
     public function getSlugOptions(): SlugOptions
@@ -18,8 +19,14 @@ class HWCType extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function outcomes()
+    {
+        return $this->hasMany(HWCOutcome::class);
     }
 }

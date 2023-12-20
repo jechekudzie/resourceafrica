@@ -300,7 +300,7 @@ class ApiController extends Controller
     public function updateRolePermissions(Request $request)
     {
         $role = Role::findOrFail($request->role_id);
-        $request->checked ? $role->givePermissionTo($request->permission) : $role->revokePermissionTo($request->permission);
+        $request->checked == "true" ? $role->givePermissionTo($request->permission) : $role->revokePermissionTo($request->permission);
         return response()->json($request->permissions);
     }
 

@@ -12,14 +12,14 @@ class Incident extends Model
     protected $fillable = [
         'title',
         'description',
-        'location',
+        'longitude',
+        'latitude',
         'date',
         'time',
         'image',
         'user_id',
         'organization_id',
-        'species_id',
-        'status_id',
+        'h_w_c_outcome_id',
     ];
 
     //updates
@@ -31,6 +31,11 @@ class Incident extends Model
     //species
     public function species()
     {
-        return $this->belongsToMany(Species::class);
+        return $this->belongsToMany(Species::class, 'incident_species');
+    }
+
+    function outcome()
+    {
+        return $this->belongsTo(HWCOutcome::class, 'h_w_c_outcome_id');
     }
 }

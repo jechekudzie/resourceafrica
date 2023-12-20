@@ -40,19 +40,19 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-4">
-                            <label class="form-label" for="title">Title</label>
-                            <input type="text" class="form-control form-control-lg" id="title" name="title"
-                                   placeholder="Enter incident title..">
+                            <label class="form-label" for="type">Conflict Type</label>
+                            <select id="type" name="hwctype" class="form-control">
+                                @foreach(\App\Models\HWCType::all() as $type)
+                                    <option onclick="loadOutcomes({{ $type->id }})"
+                                            value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-4">
-                            <label class="form-label" for="location">Longitude</label>
-                            <input type="text" class="form-control form-control-lg" id="longitude" name="longitude"
-                                   placeholder="Enter incident longitude">
-                        </div>
-                        <div class="col-4">
-                            <label class="form-label" for="latitude">Latitude</label>
-                            <input type="text" class="form-control form-control-lg" id="latitude" name="latitude"
-                                   placeholder="Enter incident latitude.">
+                            <label class="form-label" for="location">HWC Outcomes</label>
+                            <select id="outcome" name="hwcoutcome_id" class="form-control">
+                                <option>Select an HWC Outcome</option>
+                            </select>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -105,8 +105,29 @@
             </div>
         </div>
         <!-- END Add Incident Mega Form -->
-
-
     </div>
-
 @endsection
+
+@push('scripts')
+    <script>
+
+        // Load outcomes for selected type
+        function loadOutcomes(type_id) {
+            $.ajax({
+                url: '/hwc/outcomes/' + type_id,
+                type: 'GET',
+                success: function (data) {
+                    //append options to dropdown
+                    $('#outcome').empty();
+                    $.each(data, function (key, value) {
+                        $('#outcome')
+                            .append($("<option></option>")
+                                .attr("value", value.id)
+                                .text(value.name));
+                    });
+                }
+            });
+        }
+
+    </script>
+@endpush

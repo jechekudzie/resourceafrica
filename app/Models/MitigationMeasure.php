@@ -9,7 +9,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class MitigationMeasure extends Model
 {
-    use HasFactory,HasSlug;
+    use HasFactory, HasSlug;
 
     protected $guarded = [];
 
@@ -19,8 +19,14 @@ class MitigationMeasure extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function pacs()
+    {
+        return $this->belongsToMany(Pac::class, 'mitigation_measures_pac');
     }
 }

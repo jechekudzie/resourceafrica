@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('incident_species', function (Blueprint $table) {
+        Schema::create('pacs', function (Blueprint $table) {
             $table->id();
-            $table->integer('incident_id');
-            $table->integer('specie_id');
-            $table->string('gender')->nullable();
+            $table->string('title');
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->string('notes')->nullable();
+            $table->string('incident_id')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('incident_specie');
+        Schema::dropIfExists('pacs');
     }
 };

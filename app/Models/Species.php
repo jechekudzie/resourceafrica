@@ -28,7 +28,6 @@ class Species extends Model
     //incidents
     public function incidents()
     {
-        return $this->belongsToMany(Incident::class);
+        return $this->belongsToMany(Incident::class, 'incident_species');
     }
-
 }

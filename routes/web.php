@@ -33,6 +33,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/hwc/outcomes/{id}', function ($id) {
+    //get outcomes for the type
+    $outcomes = DB::table('h_w_c_outcomes')->where('h_w_c_type_id', $id)->get();
+    return response()->json($outcomes);
+});
+
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/table', [AdminController::class, 'table']);
 Route::get('/admin/form', [AdminController::class, 'form']);
@@ -147,3 +153,6 @@ Route::get('/{organization}/problematic-animal-control', [DashboardController::c
 
 //post routes to save stuff
 Route::post('/human-wildlife-conflict/create', [DashboardController::class, 'storeHumanWildlifeConflict'])->name('hwc.incidents.store');
+Route::post('/problematic-animal-control/create', [DashboardController::class, 'storePAC'])->name('pac.store');
+
+//get routes to fetch stuff

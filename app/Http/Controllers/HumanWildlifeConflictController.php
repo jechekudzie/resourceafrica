@@ -20,7 +20,7 @@ class HumanWildlifeConflictController extends Controller
         $organizations = Organization::all();
         $hwcTypes = HWCType::all();
         $hwcOutcomes = HWCOutcome::all();
-        return view('administration.human_wildlife_conflicts.index', compact('conflicts','organizations', 'hwcTypes', 'hwcOutcomes','species'));
+        return view('administration.human_wildlife_conflicts.index', compact('conflicts', 'organizations', 'hwcTypes', 'hwcOutcomes', 'species'));
     }
 
     /**
@@ -114,6 +114,36 @@ class HumanWildlifeConflictController extends Controller
 
         return redirect()->route('human_wildlife_conflicts.index')
             ->with('success', 'Conflict deleted successfully.');
+    }
+
+    public function outcomes()
+    {
+        $hwcOutcomes = HWCOutcome::all();
+        return view('administration.human_wildlife_conflicts.outcomes', compact('hwcOutcomes'));
+    }
+
+    public function types()
+    {
+        $hwcOutcomes = HWCOutcome::all();
+        return view('administration.human_wildlife_conflicts.outcomes', compact('hwcOutcomes'));
+    }
+
+    public function marking()
+    {
+        $hwcOutcomes = HWCOutcome::all();
+        return view('administration.human_wildlife_conflicts.outcomes', compact('hwcOutcomes'));
+    }
+
+    public function security()
+    {
+        $hwcOutcomes = HWCOutcome::all();
+        return view('administration.human_wildlife_conflicts.outcomes', compact('hwcOutcomes'));
+    }
+
+    public function campaigns()
+    {
+        $hwcOutcomes = HWCOutcome::all();
+        return view('administration.human_wildlife_conflicts.outcomes', compact('hwcOutcomes'));
     }
 
 }

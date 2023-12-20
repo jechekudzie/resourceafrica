@@ -11,6 +11,7 @@ class HWCOutcome extends Model
 {
 
     use HasFactory, HasSlug;
+
     protected $guarded = [];
 
     public function getSlugOptions(): SlugOptions
@@ -19,8 +20,19 @@ class HWCOutcome extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function incidents()
+    {
+        return $this->hasMany(Incident::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(HWCType::class, 'h_w_c_type_id');
     }
 }

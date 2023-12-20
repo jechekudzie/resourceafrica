@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incident;
 use App\Models\Organization;
+use App\Models\Pac;
 use App\Models\Species;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -103,12 +104,21 @@ class DashboardController extends Controller
 
     public function humanWildlifeConflictHome(Organization $organization)
     {
-        return view('modules.hwc.index')->with($this->loadPermissions($organization));
+        $incidents = Incident::where('organization_id', $organization->id)->get();
+        return view('modules.hwc.index')->with($this->loadPermissions($organization))->with('incidents', $incidents);
     }
 
     public function problematicAnimalControlHome(Organization $organization)
     {
-        return view('modules.pac.index')->with($this->loadPermissions($organization));
+        $pacs = Pac::whereIn('incident_id', DB::table('incidents')->where('organization_id', $organization->id)->pluck('id')->toArray())->get();
+
+        //loop through and fetch incident id and add to the collection
+        foreach ($pacs as $pac) {
+            $incident = Incident::find($pac->incident_id);
+            $pac->incident = $incident;
+        }
+
+        return view('modules.pac.index')->with($this->loadPermissions($organization))->with('pacs', $pacs);
     }
 
     function loadPermissions(Organization $organization)
@@ -119,7 +129,7 @@ class DashboardController extends Controller
         $permissions = $permissions->permissions()->pluck('name');
         $permissions = $permissions->toArray();
 
-        //get the logged in user's organisations
+        //get the logged in user's organisati ons
         $data = [
             'org' => $organization,
             'user' => $user,
@@ -168,5 +178,52 @@ class DashboardController extends Controller
         return back()->with('success', 'Incident created successfully.');
     }
 
+    public function storeHumanWildlifeConflict(Request $request)
+    {
+        $incident = new Incident([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'latitude' => $request->get('latitude'),
+            'longitude' => $request->get('longitude'),
+            'date' => $request->get('date'),
+            'time' => $request->get('time'),
+            'image' => $request->get('image'),
+            'user_id' => Auth::user()->id,
+            'organization_id' => $request->get('organization_id'),
+            'h_w_c_outcome_id' => $request->get('hwcoutcome_id'),
+        ]);
+
+        $incident->save();
+
+        //need to attach the species to the incident
+        $incident->species()->attach($request->get('species'));
+
+        return back()->with('success', 'Incident created successfully.');
+    }
+
+    public function storePAC(Request $incident)
+    {
+        $pac = new Pac([
+            'title' => $incident->get('title'),
+            'longitude' => $incident->get('longitude'),
+            'latitude' => $incident->get('latitude'),
+            'notes' => $incident->get('notes'),
+            'incident_id' => $incident->get('incident_id'),
+        ]);
+
+        $pac->save();
+
+        //need to attach the mitigation measures to the pac
+        $pac->mitigation_measures()->attach($incident->get('mitigation'));
+
+        //attachce control measure
+        $pac->control_measures()->attach($incident->get('control'));
+
+        $incident = Incident::find($incident->get('incident_id'));
+
+        $organization = Organization::find($incident->organization_id);
+
+        return redirect()->to($organization->slug . '/problematic-animal-control');
+    }
 
 }

@@ -82,4 +82,19 @@ class ControlMeasureController extends Controller
         return redirect('/administration/pac/control-measures')
             ->with('success', 'Outcome deleted successfully.');
     }
+
+    public function incidents()
+    {
+        return view('administration.control_measures.incidents');
+    }
+
+    public function mitigationMeasures()
+    {
+        return view('administration.control_measures.incidents');
+    }
+
+    public function controlMeasures()
+    {
+        return view('administration.control_measures.incidents');
+    }
 }

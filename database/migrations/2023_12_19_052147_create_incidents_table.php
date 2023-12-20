@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('organization_id')->constrained();
-            $table->foreignId('species_id')->constrained();
+            $table->foreignId('h_w_c_outcome_id')->constrained();
             $table->timestamps();
         });
     }

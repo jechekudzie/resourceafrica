@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>Resource Africa - Home</title>
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('assets/js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('assets/js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/codebase.min.css') }}">
 </head>
 <body>
@@ -250,8 +255,22 @@
     </footer>
     <!-- END Footer -->
 </div>
-<!-- END Page Container -->
-
 <script src="{{ asset('assets/js/codebase.app.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Page JS Plugins -->
+<script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/be_tables_datatables.min.js') }}"></script>
+@stack('scripts')
 </body>
 </html>
