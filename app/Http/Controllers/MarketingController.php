@@ -15,4 +15,24 @@ class MarketingController extends Controller
     {
         return view('administration.marketing.quotas');
     }
+
+    public function negotiate()
+    {
+        return view('administration.marketing.quotas');
+    }
+
+    public function contracts()
+    {
+        return view('administration.marketing.quotas');
+    }
+
+    public function buyers()
+    {
+        return view('administration.marketing.quotas');
+    }
+
+    public function trophyFees()
+    {
+        return view('administration.marketing.quotas');
+    }
 }

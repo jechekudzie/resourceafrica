@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('scientific')->nullable();
             $table->string('male_name')->nullable();
             $table->string('female_name')->nullable();
-            $table->string('avatar  ')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('slug')->nullable();
             $table->timestamps();
         });

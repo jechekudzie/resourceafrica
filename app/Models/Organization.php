@@ -22,7 +22,6 @@ class Organization extends Model
         return $this->hasMany(Organization::class);
     }
 
-
     public function organizationType()
     {
         return $this->belongsTo(OrganizationType::class);

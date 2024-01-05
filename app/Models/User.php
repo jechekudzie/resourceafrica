@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_super_user',
     ];
 
     /**
@@ -59,5 +60,10 @@ class User extends Authenticatable
     {
         $this->organizations()->attach($organization, ['role_id' => $role]);
         return $this;
+    }
+
+    public function isSuperUser()
+    {
+        return $this->is_super_user;
     }
 }

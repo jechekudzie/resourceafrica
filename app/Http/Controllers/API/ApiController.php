@@ -380,9 +380,9 @@ class ApiController extends Controller
             'role_id' => $role->id,
         ]);
 
-        //$email = $request->email;
+        $email = $request->email;
 
-        //Mail::to($email)->send(new WelcomeEmail());
+        Mail::to($email)->send(new WelcomeEmail());
 
         return response()->json($user);
     }
