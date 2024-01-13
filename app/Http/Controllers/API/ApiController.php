@@ -365,6 +365,7 @@ class ApiController extends Controller
             'email' => $request->email,
             'password' => Hash::make('password'),
         ]);
+
         $user->save();
 
         //fet the role and all permissions and return them

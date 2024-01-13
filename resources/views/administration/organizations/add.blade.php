@@ -54,13 +54,13 @@
                             <li id="example-6-tab" class="nav-item flex-1" role="presentation">
                                 <button class="nav-link w-full py-2" data-tw-toggle="pill"
                                         data-tw-target="#example-tab-6" type="button" role="tab"
-                                        aria-controls="example-tab-6" aria-selected="false"> Roles &amp; Permissions
+                                        aria-controls="example-tab-6" aria-selected="false"> Roles
                                 </button>
                             </li>
                             <li id="example-7-tab" class="nav-item flex-1" role="presentation">
                                 <button class="nav-link w-full py-2" data-tw-toggle="pill"
                                         data-tw-target="#example-tab-7" type="button" role="tab"
-                                        aria-controls="example-tab-7" aria-selected="false"> User Accounts
+                                        aria-controls="example-tab-7" aria-selected="false"> Users
                                 </button>
                             </li>
                             <li id="example-8-tab" class="nav-item flex-1" role="presentation">
@@ -153,6 +153,10 @@
                                                             name="role_id"></select>
                                                 </div>
                                                 <input type="hidden" id="user_organization_id" name="organization_id">
+                                                <button class="btn btn-default px-2 box">
+                                                    <span class="w-5 h-5 flex items-center justify-center"> <i
+                                                            class="w-4 h-4" data-lucide="search"></i> </span>
+                                                </button>
                                                 <button class="btn btn-primary mt-5" type="submit">Add New User</button>
                                             </div>
                                         </form>

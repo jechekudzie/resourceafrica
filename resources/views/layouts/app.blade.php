@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Resource Africa - Home</title>
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/nestable2/jquery.nestable.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/codebase.min.css') }}">
 </head>
 <body>
@@ -31,7 +32,7 @@
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user d-sm-none"></i>
                         <span
-                            class="d-none d-sm-inline-block fw-semibold">
+                                class="d-none d-sm-inline-block fw-semibold">
                             {{ \Illuminate\Support\Facades\Auth::user()->name }}
                         </span>
                         <i class="fa fa-angle-down opacity-50 ms-1"></i>
@@ -147,5 +148,8 @@
 <!-- END Page Container -->
 
 <script src="{{ asset('assets/js/codebase.app.min.js') }}"></script>
+<script src="{{ asset('assets/js/lib/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/nestable2/jquery.nestable.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/be_comp_nestable.min.js') }}"></script>
 </body>
 </html>
